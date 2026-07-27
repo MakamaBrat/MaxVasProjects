@@ -255,9 +255,7 @@ function buildTagsMarkup(tags){
   const backBtn = document.getElementById("backToGrid");
 
   const screen = document.getElementById("phoneScreen");
-  const mediaSlot = document.getElementById("phoneMediaSlot");
-  const placeholder = document.getElementById("phonePlaceholder");
-  const placeholderPath = document.getElementById("placeholderPath");
+  const phoneDuo = document.getElementById("phoneDuo");
   const info = document.getElementById("mobileInfo");
   const titleEl = document.getElementById("mobileTitle");
   const descEl = document.getElementById("mobileDesc");
@@ -275,17 +273,16 @@ function buildTagsMarkup(tags){
   let isFast = false;
 
   function applySpeed(){
-    const vid = mediaSlot.querySelector("video");
-    if (vid) vid.playbackRate = isFast ? 2 : 1;
+    phoneDuo.querySelectorAll("video").forEach(v => { v.playbackRate = isFast ? 2 : 1; });
     speedBtn.classList.toggle("is-active", isFast);
   }
 
   function pad(n){ return String(n).padStart(2, "0"); }
 
-  /* ---------- grid ---------- */
-  function buildDuoPanel(game, offsetHalf){
+  /* ---------- shared: a panel with its own placeholder + media ---------- */
+  function buildDuoPanel(game, offsetHalf, cls){
     const panel = document.createElement("div");
-    panel.className = "grid-duo-panel";
+    panel.className = cls;
 
     const ph = document.createElement("div");
     ph.className = "gif-placeholder";
@@ -304,6 +301,7 @@ function buildTagsMarkup(tags){
     return panel;
   }
 
+  /* ---------- grid: small card = ONE window, no icon/description ---------- */
   function buildGrid(){
     grid.innerHTML = "";
     MOBILE_GAMES.forEach((game, i) => {
@@ -312,43 +310,26 @@ function buildTagsMarkup(tags){
       item.className = "grid-item";
       item.setAttribute("aria-label", game.title);
 
-      const duo = document.createElement("div");
-      duo.className = "grid-duo";
-      duo.appendChild(buildDuoPanel(game, false));
-      duo.appendChild(buildDuoPanel(game, true));
+      const media = document.createElement("div");
+      media.className = "grid-media";
+      const ph = document.createElement("div");
+      ph.className = "gif-placeholder";
+      ph.innerHTML = `<span class="ph-icon">▦</span>`;
+      media.appendChild(ph);
+      media.appendChild(buildMediaEl(game.gif, game.title));
 
       const body = document.createElement("div");
       body.className = "grid-item-body";
-
-      const iconWrap = document.createElement("div");
-      iconWrap.className = "grid-item-icon";
-      if (game.icon){
-        const iconImg = document.createElement("img");
-        iconImg.src = game.icon;
-        iconImg.alt = "";
-        iconImg.draggable = false;
-        iconWrap.appendChild(iconImg);
-      }
-
-      const textWrap = document.createElement("div");
-      textWrap.className = "grid-item-text";
       const label = document.createElement("span");
       label.className = "grid-item-title";
       label.textContent = game.title;
-      const desc = document.createElement("p");
-      desc.className = "grid-item-desc";
-      desc.textContent = game.description[currentLang];
-      textWrap.appendChild(label);
-      textWrap.appendChild(desc);
-
-      body.appendChild(iconWrap);
-      body.appendChild(textWrap);
+      body.appendChild(label);
 
       const tagsRow = document.createElement("div");
       tagsRow.className = "grid-item-tags";
       tagsRow.innerHTML = buildTagsMarkup(game.tags.slice(0, 2));
 
-      item.appendChild(duo);
+      item.appendChild(media);
       item.appendChild(body);
       item.appendChild(tagsRow);
       item.addEventListener("click", () => openDetail(i));
@@ -373,9 +354,9 @@ function buildTagsMarkup(tags){
   function render(){
     const game = MOBILE_GAMES[current];
 
-    mediaSlot.innerHTML = "";
-    placeholderPath.textContent = game.gif;
-    mediaSlot.appendChild(buildMediaEl(game.gif, game.title));
+    phoneDuo.innerHTML = "";
+    phoneDuo.appendChild(buildDuoPanel(game, false, "phone-duo-panel"));
+    phoneDuo.appendChild(buildDuoPanel(game, true, "phone-duo-panel"));
     applySpeed();
 
     titleEl.textContent = game.title;
@@ -623,14 +604,10 @@ function buildTagsMarkup(tags){
       body.className = "shelf-card-body";
       body.innerHTML = `
         <div class="shelf-card-head">
-          ${game.icon ? `<div class="shelf-card-icon"><img src="${game.icon}" alt="" draggable="false"></div>` : ""}
-          <div class="shelf-card-headtext">
-            <span class="mono shelf-card-index">${String(i + 1).padStart(2, "0")}</span>
-            <h3>${game.title}</h3>
-          </div>
+          <span class="mono shelf-card-index">${String(i + 1).padStart(2, "0")}</span>
+          <h3>${game.title}</h3>
         </div>
-        <p>${game.description[currentLang]}</p>
-        <div class="tags">${buildTagsMarkup(game.tags)}</div>
+        <div class="tags">${buildTagsMarkup(game.tags.slice(0, 2))}</div>
       `;
 
       card.appendChild(media);
