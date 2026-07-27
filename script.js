@@ -12,6 +12,7 @@ const MOBILE_GAMES = [
   {
     title: "Chicken Spin",
     gif: "assets/mobile/Chicken Spin.mp4",
+    icon: "assets/mobile/ChickenSpin Icon.png",
     tags: ["Аркада", "Unity", "Firebase SDK Analytics", "Animator"],
     description: {
       ru: "Весёлая аркада про курицу — крути, собирай очки, не теряй перья.",
@@ -22,6 +23,7 @@ const MOBILE_GAMES = [
   {
     title: "Taroxa",
     gif: "assets/mobile/Taroxa.mp4",
+    icon: "assets/mobile/Taroxa Icon.png",
     tags: ["Telegram Mini App", "Google Analytics", "Supabase"],
     description: {
       ru: "Приятно анимированная Telegram Mini App игра про Таро-карты и предсказания.",
@@ -32,6 +34,7 @@ const MOBILE_GAMES = [
   {
     title: "CVGrams",
     gif: "assets/mobile/CV GRAMs.MP4",
+    icon: "assets/mobile/CVGRAMs icon.png",
     tags: ["Telegram Mini App", "Google Analytics", "Supabase"],
     description: {
       ru: "Telegram Mini App, где резюме превращается в интерактивную игровую карточку.",
@@ -42,6 +45,7 @@ const MOBILE_GAMES = [
   {
     title: "Bow and Woods",
     gif: "assets/mobile/BowAndWoods.mp4",
+    icon: "assets/mobile/BowAndWoodsIcon.png",
     tags: ["Аркада", "Unity", "Firebase SDK Remote", "ChatGPT"],
     description: {
       ru: "Аркада про стрельбу из лука в лесной чаще — целься точнее с каждым уровнем.",
@@ -52,6 +56,7 @@ const MOBILE_GAMES = [
   {
     title: "Chicken Sushi Rush",
     gif: "assets/mobile/Chicken Sushi Rush.mp4",
+    icon: "assets/mobile/Chicken Rush Icon.png",
     tags: ["Раннер", "Unity", "Animator", "Gemini"],
     description: {
       ru: "Забавный раннер, где курица спасается бегством по кухне суши-бара.",
@@ -62,6 +67,7 @@ const MOBILE_GAMES = [
   {
     title: "Grand Artick Legend",
     gif: "assets/mobile/Grand Artick Legend.mp4",
+    icon: "assets/mobile/GrandArcticLegends.png",
     tags: ["Приключение", "Unreal", "Firebase SDK Analytics", "Claude"],
     description: {
       ru: "Приключение среди льдов — исследуй арктические земли и древние легенды.",
@@ -72,6 +78,7 @@ const MOBILE_GAMES = [
   {
     title: "Magic Board",
     gif: "assets/mobile/MagicBoard.mp4",
+    icon: "assets/mobile/Magic Board.png",
     tags: ["Пазл", "Godot", "Firebase SDK Remote", "Animator"],
     description: {
       ru: "Настольная головоломка с элементами магии — собирай комбинации на волшебной доске.",
@@ -82,6 +89,7 @@ const MOBILE_GAMES = [
   {
     title: "Rookie Strike",
     gif: "assets/mobile/Rookie Strike.mp4",
+    icon: "assets/mobile/Rookie Strike.png",
     tags: ["Шутер", "Unity", "ChatGPT", "Firebase SDK Analytics"],
     description: {
       ru: "Аркадный шутер для новичков — быстрые раунды, простое управление, много экшена.",
@@ -92,6 +100,7 @@ const MOBILE_GAMES = [
   {
     title: "Yukon Gold",
     gif: "assets/mobile/Yukon Gold.mp4",
+    icon: "assets/mobile/Youkon gold.png",
     tags: ["Казино", "Unity", "Firebase SDK Remote", "Gemini"],
     description: {
       ru: "Игровые слоты в стиле золотой лихорадки Юкона.",
@@ -105,6 +114,7 @@ const DESKTOP_GAMES = [
   {
     title: "Atomic Casino",
     gif: "assets/desktop/AtomicCasino.gif",
+    icon: "assets/mobile/Atomic Casino.png",
     tags: ["Казино", "Unity", "Firebase Auth", "Firebase Firestore", "Firebase Analytics", "Firebase Remote Config", "Firebase Crashlytics", "AppsFlyer"],
     description: {
       ru: "Атмосферные слоты Social Casino в духе постапокалиптического мира в стиле Сталкер/Fallout.",
@@ -273,6 +283,27 @@ function buildTagsMarkup(tags){
   function pad(n){ return String(n).padStart(2, "0"); }
 
   /* ---------- grid ---------- */
+  function buildDuoPanel(game, offsetHalf){
+    const panel = document.createElement("div");
+    panel.className = "grid-duo-panel";
+
+    const ph = document.createElement("div");
+    ph.className = "gif-placeholder";
+    ph.innerHTML = `<span class="ph-icon">▦</span>`;
+    panel.appendChild(ph);
+
+    const mediaEl = buildMediaEl(game.gif, game.title);
+    if (offsetHalf && mediaEl.tagName === "VIDEO"){
+      mediaEl.addEventListener("loadedmetadata", () => {
+        if (isFinite(mediaEl.duration) && mediaEl.duration > 0){
+          try { mediaEl.currentTime = mediaEl.duration / 2; } catch (e) { /* ignore */ }
+        }
+      });
+    }
+    panel.appendChild(mediaEl);
+    return panel;
+  }
+
   function buildGrid(){
     grid.innerHTML = "";
     MOBILE_GAMES.forEach((game, i) => {
@@ -281,24 +312,44 @@ function buildTagsMarkup(tags){
       item.className = "grid-item";
       item.setAttribute("aria-label", game.title);
 
-      const media = document.createElement("div");
-      media.className = "grid-item-media";
-      const ph = document.createElement("div");
-      ph.className = "gif-placeholder";
-      ph.innerHTML = `<span class="ph-icon">▦</span><code>${game.gif.split("/").pop()}</code>`;
-      media.appendChild(ph);
-      media.appendChild(buildMediaEl(game.gif, game.title));
+      const duo = document.createElement("div");
+      duo.className = "grid-duo";
+      duo.appendChild(buildDuoPanel(game, false));
+      duo.appendChild(buildDuoPanel(game, true));
 
+      const body = document.createElement("div");
+      body.className = "grid-item-body";
+
+      const iconWrap = document.createElement("div");
+      iconWrap.className = "grid-item-icon";
+      if (game.icon){
+        const iconImg = document.createElement("img");
+        iconImg.src = game.icon;
+        iconImg.alt = "";
+        iconImg.draggable = false;
+        iconWrap.appendChild(iconImg);
+      }
+
+      const textWrap = document.createElement("div");
+      textWrap.className = "grid-item-text";
       const label = document.createElement("span");
       label.className = "grid-item-title";
       label.textContent = game.title;
+      const desc = document.createElement("p");
+      desc.className = "grid-item-desc";
+      desc.textContent = game.description[currentLang];
+      textWrap.appendChild(label);
+      textWrap.appendChild(desc);
+
+      body.appendChild(iconWrap);
+      body.appendChild(textWrap);
 
       const tagsRow = document.createElement("div");
       tagsRow.className = "grid-item-tags";
       tagsRow.innerHTML = buildTagsMarkup(game.tags.slice(0, 2));
 
-      item.appendChild(media);
-      item.appendChild(label);
+      item.appendChild(duo);
+      item.appendChild(body);
       item.appendChild(tagsRow);
       item.addEventListener("click", () => openDetail(i));
       grid.appendChild(item);
@@ -430,6 +481,8 @@ function buildTagsMarkup(tags){
   const descEl = document.getElementById("tvDesc");
   const indexEl = document.getElementById("tvIndex");
   const tagsEl = document.getElementById("tvTags");
+  const iconWrap = document.getElementById("tvIcon");
+  const iconImg = document.getElementById("tvIconImg");
   const dotsWrap = document.getElementById("tvDots");
   const detailPrev = document.getElementById("desktopPrev");
   const detailNext = document.getElementById("desktopNext");
@@ -471,6 +524,13 @@ function buildTagsMarkup(tags){
     descEl.textContent = game.description[currentLang];
     indexEl.textContent = `${pad(current + 1)} / ${pad(DESKTOP_GAMES.length)}`;
     tagsEl.innerHTML = buildTagsMarkup(game.tags);
+
+    if (game.icon){
+      iconImg.src = game.icon;
+      iconWrap.hidden = false;
+    } else {
+      iconWrap.hidden = true;
+    }
 
     [...dotsWrap.children].forEach((d, i) => d.classList.toggle("is-active", i === current));
   }
@@ -562,8 +622,13 @@ function buildTagsMarkup(tags){
       const body = document.createElement("div");
       body.className = "shelf-card-body";
       body.innerHTML = `
-        <span class="mono shelf-card-index">${String(i + 1).padStart(2, "0")}</span>
-        <h3>${game.title}</h3>
+        <div class="shelf-card-head">
+          ${game.icon ? `<div class="shelf-card-icon"><img src="${game.icon}" alt="" draggable="false"></div>` : ""}
+          <div class="shelf-card-headtext">
+            <span class="mono shelf-card-index">${String(i + 1).padStart(2, "0")}</span>
+            <h3>${game.title}</h3>
+          </div>
+        </div>
         <p>${game.description[currentLang]}</p>
         <div class="tags">${buildTagsMarkup(game.tags)}</div>
       `;
