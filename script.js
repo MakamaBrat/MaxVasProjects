@@ -1,46 +1,252 @@
 /* ===================================================================
    ДАННЫЕ ОБ ИГРАХ
-   Замени title / description / gif / tags на свои.
-   gif — путь до файла в assets/mobile или assets/desktop.
-   Пока файла нет — покажется аккуратная заглушка с путём.
+   title       — название (не переводится)
+   gif         — путь до файла (.gif или .mp4/.webm — определяется сам)
+   tags        — technologies / genre. Жанровые слова из GENRE_TR
+                 переводятся автоматически, остальные (Unity, Firebase...)
+                 остаются как есть на всех языках.
+   description — объект { ru, uk, en }
 =================================================================== */
 
 const MOBILE_GAMES = [
   {
     title: "Chicken Spin",
-    description: "Nice Arcade About Chicken",
-    gif: "assets/mobile/gif0.gif",
-    tags: ["Аркада", "Unity"]
+    gif: "assets/mobile/Chicken Spin.gif",
+    tags: ["Аркада", "Unity", "Firebase SDK Analytics", "Animator"],
+    description: {
+      ru: "Весёлая аркада про курицу — крути, собирай очки, не теряй перья.",
+      uk: "Весела аркада про курку — крутись, збирай очки, не губи пір'я.",
+      en: "Nice Arcade About Chicken."
+    }
   },
   {
     title: "Taroxa",
-    description: "Приятно анимированная Telegram Mini App игра про Таро карточки и предсказания",
-    gif: "assets/mobile/gif1.gif",
-    tags: ["Roguelike", "LibGDX"]
+    gif: "assets/mobile/Taroxa.gif",
+    tags: ["Telegram Mini App", "Google Analytics", "Supabase"],
+    description: {
+      ru: "Приятно анимированная Telegram Mini App игра про Таро-карты и предсказания.",
+      uk: "Приємно анімована Telegram Mini App гра про Таро-карти та передбачення.",
+      en: "A beautifully animated Telegram Mini App about tarot cards and fortune-telling."
+    }
   },
   {
-    title: "Дрифт Точка",
-    description: "Мини-гонка с физикой заноса и одним пальцем на руле. Трассы генерируются на лету.",
-    gif: "assets/mobile/gif2.gif",
-    tags: ["Гонки", "Unity"]
+    title: "CVGrams",
+    gif: "assets/mobile/CV GRAMs.MP4",
+    tags: ["Telegram Mini App", "Google Analytics", "Supabase"],
+    description: {
+      ru: "Telegram Mini App, где резюме превращается в интерактивную игровую карточку.",
+      uk: "Telegram Mini App, де резюме перетворюється на інтерактивну ігрову картку.",
+      en: "A Telegram Mini App that turns a CV into an interactive playable card."
+    }
+  },
+  {
+    title: "Bow and Woods",
+    gif: "assets/mobile/BowAndWoods.gif",
+    tags: ["Аркада", "Unity", "Firebase SDK Remote", "ChatGPT"],
+    description: {
+      ru: "Аркада про стрельбу из лука в лесной чаще — целься точнее с каждым уровнем.",
+      uk: "Аркада про стрільбу з лука в лісовій хащі — цілься точніше з кожним рівнем.",
+      en: "A bow-and-arrow arcade set deep in the woods — aim gets tighter every level."
+    }
+  },
+  {
+    title: "Chicken Sushi Rush",
+    gif: "assets/mobile/Chicken Sushi Rush.gif",
+    tags: ["Раннер", "Unity", "Animator", "Gemini"],
+    description: {
+      ru: "Забавный раннер, где курица спасается бегством по кухне суши-бара.",
+      uk: "Кумедний раннер, де курка тікає кухнею суші-бару.",
+      en: "A playful runner where a chicken makes a break for it through a sushi kitchen."
+    }
+  },
+  {
+    title: "Grand Artick Legend",
+    gif: "assets/mobile/Grand Artick Legend.gif",
+    tags: ["Приключение", "Unreal", "Firebase SDK Analytics", "Claude"],
+    description: {
+      ru: "Приключение среди льдов — исследуй арктические земли и древние легенды.",
+      uk: "Пригода серед льодів — досліджуй арктичні землі та давні легенди.",
+      en: "An icy adventure — explore arctic lands and ancient legends."
+    }
+  },
+  {
+    title: "Magic Board",
+    gif: "assets/mobile/MagicBoard.gif",
+    tags: ["Пазл", "Godot", "Firebase SDK Remote", "Animator"],
+    description: {
+      ru: "Настольная головоломка с элементами магии — собирай комбинации на волшебной доске.",
+      uk: "Настільна головоломка з елементами магії — збирай комбінації на чарівній дошці.",
+      en: "A magical board puzzle — line up combinations on an enchanted grid."
+    }
+  },
+  {
+    title: "Rookie Strike",
+    gif: "assets/mobile/Rookie Strike.gif",
+    tags: ["Шутер", "Unity", "ChatGPT", "Firebase SDK Analytics"],
+    description: {
+      ru: "Аркадный шутер для новичков — быстрые раунды, простое управление, много экшена.",
+      uk: "Аркадний шутер для новачків — швидкі раунди, просте керування, багато екшену.",
+      en: "A rookie-friendly arcade shooter — fast rounds, simple controls, plenty of action."
+    }
+  },
+  {
+    title: "Yukon Gold",
+    gif: "assets/mobile/Yukon Gold.gif",
+    tags: ["Казино", "Unity", "Firebase SDK Remote", "Gemini"],
+    description: {
+      ru: "Игровые слоты в стиле золотой лихорадки Юкона.",
+      uk: "Ігрові слоти у стилі золотої лихоманки Юкону.",
+      en: "Slot-style gameplay set during the Yukon gold rush."
+    }
   }
 ];
 
 const DESKTOP_GAMES = [
   {
     title: "Atomic Casino",
-    description: "Атмосферные слоты Social Casino в духе постапокалиптического мира в стиле Сталкер/Fallout.",
-    gif: "assets/desktop/gif0.gif",
-    tags: ["Immersive sim", "Unreal"]
+    gif: "assets/desktop/AtomicCasino.gif",
+    tags: ["Казино", "Unity", "Firebase Auth", "Firebase Firestore", "Firebase Analytics", "Firebase Remote Config", "Firebase Crashlytics", "AppsFlyer"],
+    description: {
+      ru: "Атмосферные слоты Social Casino в духе постапокалиптического мира в стиле Сталкер/Fallout.",
+      uk: "Атмосферні слоти Social Casino у дусі постапокаліптичного світу в стилі Сталкер/Fallout.",
+      en: "Atmospheric social-casino slots set in a post-apocalyptic Stalker/Fallout-style world."
+    }
   }
 ];
 
+/* жанровые тэги переводятся, технологии — нет */
+const GENRE_TR = {
+  "Аркада":       { uk: "Аркада",   en: "Arcade" },
+  "Раннер":       { uk: "Раннер",   en: "Runner" },
+  "Приключение":  { uk: "Пригода",  en: "Adventure" },
+  "Пазл":         { uk: "Пазл",     en: "Puzzle" },
+  "Шутер":        { uk: "Шутер",    en: "Shooter" },
+  "Казино":       { uk: "Казино",   en: "Casino" }
+};
+
 /* ===================================================================
-   PHONE / PORTABLE SECTION
+   ПЕРЕВОДЫ ИНТЕРФЕЙСА
+=================================================================== */
+const UI = {
+  ru: {
+    statProjects: "реализованных проектов",
+    statExp: "года опыта",
+    navPortable: "Портативные",
+    navDesktop: "На большом экране",
+    heroEyebrow: "PORTFOLIO — GAME DEV",
+    heroTitleLines: ["Игры, в которые", "хочется вернуться"],
+    heroSub: "Портативные и настольные проекты — гифки, описания и характер каждой игры в одном месте. Листай стрелками, как на консоли.",
+    portableEyebrow: "01 — ПОРТАТИВНЫЕ",
+    portableTitle: "Игры в кармане",
+    portableSub: "Выбери игру — она откроется на экране телефона со стрелками и описанием.",
+    backToGrid: "Все игры",
+    desktopEyebrow: "02 — ГОРИЗОНТАЛЬНЫЕ",
+    desktopTitle: "Игры на большом экране",
+    desktopSub: "Полка проектов — пролистай вправо мышью, тачпадом или свайпом.",
+    addGifHere: "Положи файл сюда:",
+    footer: "Сделано как шаблон портфолио. Замени медиафайлы в assets/mobile / assets/desktop и данные в script.js — на свои."
+  },
+  uk: {
+    statProjects: "реалізованих проєктів",
+    statExp: "роки досвіду",
+    navPortable: "Портативні",
+    navDesktop: "На великому екрані",
+    heroEyebrow: "PORTFOLIO — GAME DEV",
+    heroTitleLines: ["Ігри, до яких", "хочеться повертатись"],
+    heroSub: "Портативні та настільні проєкти — гіфки, описи та характер кожної гри в одному місці. Гортай стрілками, як на консолі.",
+    portableEyebrow: "01 — ПОРТАТИВНІ",
+    portableTitle: "Ігри в кишені",
+    portableSub: "Обери гру — вона відкриється на екрані телефону зі стрілками та описом.",
+    backToGrid: "Усі ігри",
+    desktopEyebrow: "02 — ГОРИЗОНТАЛЬНІ",
+    desktopTitle: "Ігри на великому екрані",
+    desktopSub: "Полиця проєктів — прогортай вправо мишею, тачпадом або свайпом.",
+    addGifHere: "Поклади файл сюди:",
+    footer: "Зроблено як шаблон портфоліо. Заміни медіафайли в assets/mobile / assets/desktop та дані в script.js — на свої."
+  },
+  en: {
+    statProjects: "shipped projects",
+    statExp: "years of experience",
+    navPortable: "Portable",
+    navDesktop: "On the big screen",
+    heroEyebrow: "PORTFOLIO — GAME DEV",
+    heroTitleLines: ["Games worth", "coming back to"],
+    heroSub: "Portable and desktop projects — gifs, descriptions and the character of every game in one place. Flip through them like on a console.",
+    portableEyebrow: "01 — PORTABLE",
+    portableTitle: "Games in your pocket",
+    portableSub: "Pick a game — it opens on the phone screen with arrows and a description.",
+    backToGrid: "All games",
+    desktopEyebrow: "02 — WIDESCREEN",
+    desktopTitle: "Games on the big screen",
+    desktopSub: "A shelf of projects — scroll right with a mouse, trackpad or swipe.",
+    addGifHere: "Drop the file here:",
+    footer: "Built as a portfolio template. Swap the media in assets/mobile / assets/desktop and the data in script.js for your own."
+  }
+};
+
+const LANG_KEY = "portfolio_lang";
+let currentLang = "ru";
+try {
+  const saved = localStorage.getItem(LANG_KEY);
+  if (saved && UI[saved]) currentLang = saved;
+} catch (e) { /* localStorage unavailable — fall back to default */ }
+
+function tr(key){ return UI[currentLang][key]; }
+function trTag(tag){
+  if (currentLang === "ru") return tag;
+  const entry = GENRE_TR[tag];
+  return entry ? (entry[currentLang] || tag) : tag;
+}
+
+/* ===================================================================
+   MEDIA HELPER (гифка или видео — определяем по расширению)
+=================================================================== */
+function isVideoFile(path){
+  const ext = path.split(".").pop().toLowerCase();
+  return ["mp4", "webm", "mov", "m4v"].includes(ext);
+}
+
+function buildMediaEl(path, alt){
+  let el;
+  if (isVideoFile(path)){
+    el = document.createElement("video");
+    el.muted = true;
+    el.loop = true;
+    el.autoplay = true;
+    el.playsInline = true;
+    el.preload = "metadata";
+    el.addEventListener("loadeddata", () => el.classList.add("is-visible"));
+    el.addEventListener("error", () => el.classList.remove("is-visible"));
+    el.src = path;
+  } else {
+    el = document.createElement("img");
+    el.alt = alt || "";
+    el.draggable = false;
+    el.addEventListener("load", () => el.classList.add("is-visible"));
+    el.addEventListener("error", () => el.classList.remove("is-visible"));
+    el.src = path;
+  }
+  return el;
+}
+
+function buildTagsMarkup(tags){
+  return tags.map(t => {
+    const special = t === "Telegram Mini App";
+    return `<span class="tag${special ? " tag-special" : ""}">${trTag(t)}</span>`;
+  }).join("");
+}
+
+/* ===================================================================
+   PHONE / PORTABLE SECTION (grid -> detail)
 =================================================================== */
 (function initMobileConsole(){
+  const grid = document.getElementById("mobileGrid");
+  const detail = document.getElementById("mobileDetail");
+  const backBtn = document.getElementById("backToGrid");
+
   const screen = document.getElementById("phoneScreen");
-  const img = document.getElementById("mobileGif");
+  const mediaSlot = document.getElementById("phoneMediaSlot");
+  const placeholder = document.getElementById("phonePlaceholder");
   const placeholderPath = document.getElementById("placeholderPath");
   const info = document.getElementById("mobileInfo");
   const titleEl = document.getElementById("mobileTitle");
@@ -54,44 +260,71 @@ const DESKTOP_GAMES = [
 
   let current = 0;
   let isAnimating = false;
-
-  // build dots
-  MOBILE_GAMES.forEach((_, i) => {
-    const dot = document.createElement("button");
-    dot.className = "dot" + (i === 0 ? " is-active" : "");
-    dot.setAttribute("aria-label", `Игра ${i + 1}`);
-    dot.addEventListener("click", () => goTo(i));
-    dotsWrap.appendChild(dot);
-  });
+  let isOpen = false;
 
   function pad(n){ return String(n).padStart(2, "0"); }
 
+  /* ---------- grid ---------- */
+  function buildGrid(){
+    grid.innerHTML = "";
+    MOBILE_GAMES.forEach((game, i) => {
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "grid-item";
+      item.setAttribute("aria-label", game.title);
+
+      const media = document.createElement("div");
+      media.className = "grid-item-media";
+      const ph = document.createElement("div");
+      ph.className = "gif-placeholder";
+      ph.innerHTML = `<span class="ph-icon">▦</span><code>${game.gif.split("/").pop()}</code>`;
+      media.appendChild(ph);
+      media.appendChild(buildMediaEl(game.gif, game.title));
+
+      const label = document.createElement("span");
+      label.className = "grid-item-title";
+      label.textContent = game.title;
+
+      const tagsRow = document.createElement("div");
+      tagsRow.className = "grid-item-tags";
+      tagsRow.innerHTML = buildTagsMarkup(game.tags.slice(0, 2));
+
+      item.appendChild(media);
+      item.appendChild(label);
+      item.appendChild(tagsRow);
+      item.addEventListener("click", () => openDetail(i));
+      grid.appendChild(item);
+    });
+  }
+
+  /* ---------- dots ---------- */
+  function buildDots(){
+    dotsWrap.innerHTML = "";
+    MOBILE_GAMES.forEach((_, i) => {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "dot" + (i === current ? " is-active" : "");
+      dot.setAttribute("aria-label", `${i + 1}`);
+      dot.addEventListener("click", () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+  }
+
+  /* ---------- detail render ---------- */
   function render(){
     const game = MOBILE_GAMES[current];
 
-    // reset + reload image
-    img.classList.remove("is-visible");
+    mediaSlot.innerHTML = "";
     placeholderPath.textContent = game.gif;
-    img.src = game.gif;
-
-    img.onload = () => img.classList.add("is-visible");
-    img.onerror = () => { img.classList.remove("is-visible"); };
+    mediaSlot.appendChild(buildMediaEl(game.gif, game.title));
 
     titleEl.textContent = game.title;
-    descEl.textContent = game.description;
+    descEl.textContent = game.description[currentLang];
     indexEl.textContent = `${pad(current + 1)} / ${pad(MOBILE_GAMES.length)}`;
-
-    tagsEl.innerHTML = "";
-    game.tags.forEach(t => {
-      const span = document.createElement("span");
-      span.className = "tag";
-      span.textContent = t;
-      tagsEl.appendChild(span);
-    });
+    tagsEl.innerHTML = buildTagsMarkup(game.tags);
 
     [...dotsWrap.children].forEach((d, i) => d.classList.toggle("is-active", i === current));
 
-    // led blink pulse on change
     led.style.animation = "none";
     void led.offsetWidth;
     led.style.animation = "";
@@ -112,20 +345,42 @@ const DESKTOP_GAMES = [
     }, 220);
   }
 
+  /* ---------- open / close detail with animation ---------- */
+  function openDetail(i){
+    current = i;
+    isOpen = true;
+    buildDots();
+    render();
+
+    grid.classList.add("is-leaving");
+    setTimeout(() => {
+      grid.hidden = true;
+      detail.hidden = false;
+      requestAnimationFrame(() => detail.classList.add("is-visible"));
+    }, 260);
+  }
+
+  function closeDetail(){
+    isOpen = false;
+    detail.classList.remove("is-visible");
+    setTimeout(() => {
+      detail.hidden = true;
+      grid.hidden = false;
+      requestAnimationFrame(() => grid.classList.remove("is-leaving"));
+    }, 320);
+  }
+
+  backBtn.addEventListener("click", closeDetail);
   btnPrev.addEventListener("click", () => goTo(current - 1));
   btnNext.addEventListener("click", () => goTo(current + 1));
 
-  // keyboard nav when the portable section is in view / focused
   document.addEventListener("keydown", (e) => {
-    const section = document.getElementById("portable");
-    const rect = section.getBoundingClientRect();
-    const inView = rect.top < window.innerHeight * 0.7 && rect.bottom > window.innerHeight * 0.3;
-    if (!inView) return;
+    if (!isOpen) return;
     if (e.key === "ArrowLeft") goTo(current - 1);
     if (e.key === "ArrowRight") goTo(current + 1);
+    if (e.key === "Escape") closeDetail();
   });
 
-  // touch swipe on the phone screen
   let touchStartX = null;
   screen.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
   screen.addEventListener("touchend", (e) => {
@@ -135,7 +390,12 @@ const DESKTOP_GAMES = [
     touchStartX = null;
   }, { passive: true });
 
-  render();
+  buildGrid();
+
+  window.__refreshMobile = () => {
+    buildGrid();
+    if (isOpen) render();
+  };
 })();
 
 /* ===================================================================
@@ -146,43 +406,34 @@ const DESKTOP_GAMES = [
   const btnPrev = document.getElementById("shelfPrev");
   const btnNext = document.getElementById("shelfNext");
 
-  DESKTOP_GAMES.forEach((game, i) => {
-    const card = document.createElement("article");
-    card.className = "shelf-card";
+  function buildShelf(){
+    shelf.innerHTML = "";
+    DESKTOP_GAMES.forEach((game, i) => {
+      const card = document.createElement("article");
+      card.className = "shelf-card";
 
-    const media = document.createElement("div");
-    media.className = "shelf-card-media";
+      const media = document.createElement("div");
+      media.className = "shelf-card-media";
+      const ph = document.createElement("div");
+      ph.className = "gif-placeholder";
+      ph.innerHTML = `<span class="ph-icon">▦</span><code>${game.gif.split("/").pop()}</code>`;
+      media.appendChild(ph);
+      media.appendChild(buildMediaEl(game.gif, game.title));
 
-    const placeholder = document.createElement("div");
-    placeholder.className = "gif-placeholder";
-    placeholder.innerHTML = `
-      <span class="ph-icon">▦</span>
-      <span class="ph-text">Положи .gif сюда:</span>
-      <code>${game.gif}</code>
-    `;
+      const body = document.createElement("div");
+      body.className = "shelf-card-body";
+      body.innerHTML = `
+        <span class="mono shelf-card-index">${String(i + 1).padStart(2, "0")}</span>
+        <h3>${game.title}</h3>
+        <p>${game.description[currentLang]}</p>
+        <div class="tags">${buildTagsMarkup(game.tags)}</div>
+      `;
 
-    const img = document.createElement("img");
-    img.alt = game.title;
-    img.loading = "lazy";
-    img.onload = () => img.classList.add("is-visible");
-    img.src = game.gif;
-
-    media.appendChild(placeholder);
-    media.appendChild(img);
-
-    const body = document.createElement("div");
-    body.className = "shelf-card-body";
-    body.innerHTML = `
-      <span class="mono shelf-card-index">${String(i + 1).padStart(2, "0")}</span>
-      <h3>${game.title}</h3>
-      <p>${game.description}</p>
-      <div class="tags">${game.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
-    `;
-
-    card.appendChild(media);
-    card.appendChild(body);
-    shelf.appendChild(card);
-  });
+      card.appendChild(media);
+      card.appendChild(body);
+      shelf.appendChild(card);
+    });
+  }
 
   function scrollByCard(dir){
     const card = shelf.querySelector(".shelf-card");
@@ -193,4 +444,42 @@ const DESKTOP_GAMES = [
 
   btnPrev.addEventListener("click", () => scrollByCard(-1));
   btnNext.addEventListener("click", () => scrollByCard(1));
+
+  buildShelf();
+  window.__refreshDesktop = buildShelf;
+})();
+
+/* ===================================================================
+   LANGUAGE SWITCH
+=================================================================== */
+(function initLangSwitch(){
+  const wrap = document.getElementById("langSwitch");
+  const heroTitle = document.getElementById("heroTitle");
+
+  function applyStaticText(){
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (UI[currentLang][key] !== undefined) el.textContent = tr(key);
+    });
+    heroTitle.innerHTML = tr("heroTitleLines").join("<br>");
+    document.documentElement.lang = currentLang;
+    [...wrap.children].forEach(btn => btn.classList.toggle("is-active", btn.dataset.lang === currentLang));
+  }
+
+  function setLang(lang){
+    if (!UI[lang] || lang === currentLang) { applyStaticText(); return; }
+    currentLang = lang;
+    try { localStorage.setItem(LANG_KEY, lang); } catch (e) { /* ignore */ }
+    applyStaticText();
+    if (window.__refreshMobile) window.__refreshMobile();
+    if (window.__refreshDesktop) window.__refreshDesktop();
+  }
+
+  wrap.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-lang]");
+    if (!btn) return;
+    setLang(btn.dataset.lang);
+  });
+
+  applyStaticText();
 })();

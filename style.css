@@ -40,7 +40,6 @@ body{
   overflow-x: hidden;
 }
 
-/* subtle background texture */
 .grain{
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background-image:
@@ -55,7 +54,7 @@ code{ font-family: 'Space Grotesk', monospace; }
 
 ::selection{ background: var(--amber); color: #14111c; }
 
-/* focus visibility */
+button{ font-family: inherit; }
 button:focus-visible, a:focus-visible{
   outline: 2px solid var(--amber);
   outline-offset: 3px;
@@ -82,21 +81,74 @@ p{ margin: 0; }
 .eyebrow-cyan{ color: var(--cyan); background: rgba(87,217,200,0.08); }
 
 /* ===================================================================
+   TOPBAR (Portfolio label + stats + language switch)
+=================================================================== */
+.topbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 10px clamp(20px, 6vw, 72px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 12px;
+}
+.topbar-label{
+  color: var(--amber);
+  letter-spacing: 0.14em;
+}
+.topbar-stats{
+  display: flex;
+  gap: 22px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.topbar-stats b{ color: var(--text-primary); font-family: var(--font-display); }
+.topbar-stats i{ font-style: normal; }
+
+.lang-switch{
+  display: flex;
+  gap: 4px;
+  background: var(--bg-panel);
+  border-radius: 999px;
+  padding: 3px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.lang-switch button{
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 5px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .2s var(--ease), color .2s var(--ease);
+}
+.lang-switch button:hover{ color: var(--text-primary); }
+.lang-switch button.is-active{
+  background: var(--amber);
+  color: #14111c;
+}
+
+/* ===================================================================
    HERO
 =================================================================== */
 .hero{
   position: relative;
   z-index: 1;
-  min-height: 92vh;
+  min-height: 86vh;
   display: flex;
   flex-direction: column;
-  padding: 28px clamp(20px, 6vw, 72px) 40px;
+  padding-bottom: 40px;
 }
 
 .topnav{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 22px clamp(20px, 6vw, 72px) 0;
 }
 .brand{
   font-family: var(--font-display);
@@ -122,6 +174,7 @@ p{ margin: 0; }
   justify-content: center;
   gap: 22px;
   max-width: 780px;
+  padding: 0 clamp(20px, 6vw, 72px);
 }
 .hero-body h1{
   font-size: clamp(38px, 7vw, 76px);
@@ -182,6 +235,95 @@ main{ position: relative; z-index: 1; }
   padding: 100px 20px 110px;
 }
 .desktop-section{ background: linear-gradient(180deg, transparent, rgba(87,217,200,0.035) 15%, rgba(87,217,200,0.035) 85%, transparent); }
+
+/* ===================================================================
+   MOBILE GRID (small preview cards)
+=================================================================== */
+.mobile-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 18px;
+  max-width: 920px;
+  margin: 0 auto;
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+}
+.mobile-grid.is-leaving{
+  opacity: 0;
+  transform: scale(.97);
+  pointer-events: none;
+}
+
+.grid-item{
+  background: var(--bg-panel);
+  border: 1px solid rgba(246,185,77,0.14);
+  border-radius: 18px;
+  padding: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  cursor: pointer;
+  color: inherit;
+  text-align: left;
+  transition: transform .25s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease);
+}
+.grid-item:hover{
+  transform: translateY(-5px);
+  border-color: rgba(246,185,77,0.5);
+  box-shadow: 0 14px 30px -12px rgba(246,185,77,0.18);
+}
+.grid-item:active{ transform: translateY(-1px); }
+
+.grid-item-media{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: 13px;
+  overflow: hidden;
+  background: var(--bg-panel-raised);
+}
+.grid-item-title{
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 0 2px;
+}
+.grid-item-tags{
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  padding: 0 2px;
+}
+.grid-item-tags .tag{ font-size: 9.5px; padding: 3px 7px; }
+
+/* ===================================================================
+   MOBILE DETAIL (expanded phone view)
+=================================================================== */
+.mobile-detail{
+  opacity: 0;
+  transform: scale(.94) translateY(10px);
+  transition: opacity .4s var(--ease), transform .4s var(--ease);
+}
+.mobile-detail.is-visible{
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.back-btn{
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 auto 30px;
+  border: 1px solid rgba(246,185,77,0.3);
+  background: var(--bg-panel);
+  color: var(--amber);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 16px 9px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .2s var(--ease);
+}
+.back-btn svg{ width: 15px; height: 15px; }
+.back-btn:hover{ background: var(--bg-panel-hi); }
 
 /* ===================================================================
    PHONE / CONSOLE MOCKUP
@@ -267,6 +409,7 @@ main{ position: relative; z-index: 1; }
     var(--bg-panel);
   text-align: center;
   padding: 20px;
+  z-index: 0;
 }
 .ph-icon{ font-size: 26px; opacity: .5; }
 .ph-text{ font-size: 12px; }
@@ -276,9 +419,11 @@ main{ position: relative; z-index: 1; }
   background: rgba(246,185,77,0.08);
   padding: 3px 8px;
   border-radius: 6px;
+  word-break: break-all;
 }
 
-.phone-screen img{
+.media-slot{ position: absolute; inset: 0; z-index: 1; }
+.media-slot img, .media-slot video{
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
@@ -286,8 +431,9 @@ main{ position: relative; z-index: 1; }
   transform: scale(1.04);
   transition: opacity .38s var(--ease), transform .5s var(--ease);
 }
-.phone-screen img.is-visible{ opacity: 1; transform: scale(1); }
-.phone-screen.is-switching img{ opacity: 0; transform: scale(0.96); }
+.media-slot img.is-visible, .media-slot video.is-visible{ opacity: 1; transform: scale(1); }
+.phone-screen.is-switching .media-slot img,
+.phone-screen.is-switching .media-slot video{ opacity: 0; transform: scale(0.96); }
 
 .scanlines{
   position: absolute; inset: 0;
@@ -296,11 +442,13 @@ main{ position: relative; z-index: 1; }
   );
   mix-blend-mode: overlay;
   pointer-events: none;
+  z-index: 2;
 }
 .screen-glare{
   position: absolute; inset: 0;
   background: linear-gradient(115deg, rgba(255,255,255,0.09), transparent 35%);
   pointer-events: none;
+  z-index: 2;
 }
 
 .phone-home{
@@ -349,6 +497,13 @@ main{ position: relative; z-index: 1; }
   background: var(--bg-panel-raised);
   color: var(--text-muted);
   border: 1px solid rgba(255,255,255,0.06);
+  white-space: nowrap;
+}
+.tag-special{
+  color: var(--amber);
+  border-color: rgba(246,185,77,0.35);
+  background: rgba(246,185,77,0.08);
+  font-weight: 600;
 }
 
 .dots{
@@ -412,14 +567,14 @@ main{ position: relative; z-index: 1; }
   background: var(--bg-panel-raised);
   overflow: hidden;
 }
-.shelf-card-media img{
+.shelf-card-media img, .shelf-card-media video{
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   opacity: 0;
   transition: opacity .3s var(--ease);
 }
-.shelf-card-media img.is-visible{ opacity: 1; }
+.shelf-card-media img.is-visible, .shelf-card-media video.is-visible{ opacity: 1; }
 .shelf-card-media .gif-placeholder{ font-size: 11px; }
 
 .shelf-card-body{
@@ -478,12 +633,18 @@ main{ position: relative; z-index: 1; }
 /* ===================================================================
    RESPONSIVE
 =================================================================== */
+@media (max-width: 720px){
+  .topbar{ justify-content: center; text-align: center; }
+  .topbar-stats{ justify-content: center; }
+}
+
 @media (max-width: 560px){
   .console-stage{ gap: 10px; }
   .pad-btn{ width: 46px; height: 46px; border-radius: 13px; }
   .pad-btn svg{ width: 18px; height: 18px; }
   .topnav-links{ gap: 16px; }
   .topnav-links a{ font-size: 12.5px; }
+  .mobile-grid{ grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
 }
 
 /* reduced motion */
