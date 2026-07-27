@@ -7,15 +7,15 @@
 
 const MOBILE_GAMES = [
   {
-    title: "Неон Раннер",
-    description: "Аркадный раннер с бесконечной трассой и неоновым городом на фоне. Управление — один палец, вайб — Синтвейв.",
-    gif: "assets/mobile/game-1.gif",
+    title: "Chicken Spin",
+    description: "Nice Arcade About Chicken",
+    gif: "assets/mobile/game0.gif",
     tags: ["Аркада", "Unity"]
   },
   {
-    title: "Тихий Сад",
+    title: "",
     description: "Медитативная головоломка про выращивание сада на маленьком экране. Без таймеров и давления.",
-    gif: "assets/mobile/game-2.gif",
+    gif: "assets/mobile/game1.gif",
     tags: ["Пазл", "Godot"]
   },
   {
@@ -25,37 +25,19 @@ const MOBILE_GAMES = [
     tags: ["Гонки", "Unity"]
   },
   {
-    title: "Пиксельный Подвал",
-    description: "Рогалик с видом сверху: спускайся всё глубже, собирай лут, не умирай слишком быстро.",
-    gif: "assets/mobile/game-4.gif",
+    title: "Taroxa",
+    description: "Приятно анимированная Telegram Mini App игра про Таро карточки и предсказания",
+    gif: "assets/mobile/game4.gif",
     tags: ["Roguelike", "LibGDX"]
   }
 ];
 
 const DESKTOP_GAMES = [
   {
-    title: "Гавань Теней",
-    description: "Атмосферный immersive sim в портовом городе: диалоги, стелс и последствия каждого выбора.",
-    gif: "assets/desktop/game-1.gif",
+    title: "Atomic Casino",
+    description: "Атмосферные слоты Social Casino в духе постапокалиптического мира в стиле Сталкер Falout,
+    gif: "assets/desktop/game0.gif",
     tags: ["Immersive sim", "Unreal"]
-  },
-  {
-    title: "Оркестр Шестерёнок",
-    description: "Инженерная стратегия про сборку механизмов, которые оживают под музыку.",
-    gif: "assets/desktop/game-2.gif",
-    tags: ["Стратегия", "Unity"]
-  },
-  {
-    title: "Последний Маяк",
-    description: "Кооперативное выживание вдвоём на скалистом острове посреди шторма.",
-    gif: "assets/desktop/game-3.gif",
-    tags: ["Co-op", "Unreal"]
-  },
-  {
-    title: "Картография Снов",
-    description: "Исследовательская адвенчура, где карта мира рисуется вручную по мере того, как ты его вспоминаешь.",
-    gif: "assets/desktop/game-4.gif",
-    tags: ["Adventure", "Godot"]
   }
 ];
 
