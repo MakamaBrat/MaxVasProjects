@@ -11,7 +11,7 @@
 const MOBILE_GAMES = [
   {
     title: "Chicken Spin",
-    gif: "assets/mobile/Chicken Spin.gif",
+    gif: "assets/mobile/Chicken Spin.mp4",
     tags: ["Аркада", "Unity", "Firebase SDK Analytics", "Animator"],
     description: {
       ru: "Весёлая аркада про курицу — крути, собирай очки, не теряй перья.",
@@ -21,7 +21,7 @@ const MOBILE_GAMES = [
   },
   {
     title: "Taroxa",
-    gif: "assets/mobile/Taroxa.gif",
+    gif: "assets/mobile/Taroxa.mp4",
     tags: ["Telegram Mini App", "Google Analytics", "Supabase"],
     description: {
       ru: "Приятно анимированная Telegram Mini App игра про Таро-карты и предсказания.",
@@ -41,7 +41,7 @@ const MOBILE_GAMES = [
   },
   {
     title: "Bow and Woods",
-    gif: "assets/mobile/BowAndWoods.gif",
+    gif: "assets/mobile/BowAndWoods.mp4",
     tags: ["Аркада", "Unity", "Firebase SDK Remote", "ChatGPT"],
     description: {
       ru: "Аркада про стрельбу из лука в лесной чаще — целься точнее с каждым уровнем.",
@@ -51,7 +51,7 @@ const MOBILE_GAMES = [
   },
   {
     title: "Chicken Sushi Rush",
-    gif: "assets/mobile/Chicken Sushi Rush.gif",
+    gif: "assets/mobile/Chicken Sushi Rush.mp4",
     tags: ["Раннер", "Unity", "Animator", "Gemini"],
     description: {
       ru: "Забавный раннер, где курица спасается бегством по кухне суши-бара.",
@@ -61,7 +61,7 @@ const MOBILE_GAMES = [
   },
   {
     title: "Grand Artick Legend",
-    gif: "assets/mobile/Grand Artick Legend.gif",
+    gif: "assets/mobile/Grand Artick Legend.mp4",
     tags: ["Приключение", "Unreal", "Firebase SDK Analytics", "Claude"],
     description: {
       ru: "Приключение среди льдов — исследуй арктические земли и древние легенды.",
@@ -71,7 +71,7 @@ const MOBILE_GAMES = [
   },
   {
     title: "Magic Board",
-    gif: "assets/mobile/MagicBoard.gif",
+    gif: "assets/mobile/MagicBoard.mp4",
     tags: ["Пазл", "Godot", "Firebase SDK Remote", "Animator"],
     description: {
       ru: "Настольная головоломка с элементами магии — собирай комбинации на волшебной доске.",
@@ -81,7 +81,7 @@ const MOBILE_GAMES = [
   },
   {
     title: "Rookie Strike",
-    gif: "assets/mobile/Rookie Strike.gif",
+    gif: "assets/mobile/Rookie Strike.mp4",
     tags: ["Шутер", "Unity", "ChatGPT", "Firebase SDK Analytics"],
     description: {
       ru: "Аркадный шутер для новичков — быстрые раунды, простое управление, много экшена.",
@@ -91,7 +91,7 @@ const MOBILE_GAMES = [
   },
   {
     title: "Yukon Gold",
-    gif: "assets/mobile/Yukon Gold.gif",
+    gif: "assets/mobile/Yukon Gold.mp4",
     tags: ["Казино", "Unity", "Firebase SDK Remote", "Gemini"],
     description: {
       ru: "Игровые слоты в стиле золотой лихорадки Юкона.",
@@ -134,6 +134,7 @@ const UI = {
     navPortable: "Портативные",
     navDesktop: "На большом экране",
     heroEyebrow: "PORTFOLIO — GAME DEV",
+    heroBig: "ПОРТФОЛИО",
     heroSub: "Портативные и настольные проекты — гифки, описания и характер каждой игры в одном месте. Листай стрелками, как на консоли.",
     portableEyebrow: "01 — ПОРТАТИВНЫЕ",
     portableTitle: "Игры в кармане",
@@ -151,6 +152,7 @@ const UI = {
     navPortable: "Портативні",
     navDesktop: "На великому екрані",
     heroEyebrow: "PORTFOLIO — GAME DEV",
+    heroBig: "ПОРТФОЛІО",
     heroSub: "Портативні та настільні проєкти — гіфки, описи та характер кожної гри в одному місці. Гортай стрілками, як на консолі.",
     portableEyebrow: "01 — ПОРТАТИВНІ",
     portableTitle: "Ігри в кишені",
@@ -168,6 +170,7 @@ const UI = {
     navPortable: "Portable",
     navDesktop: "On the big screen",
     heroEyebrow: "PORTFOLIO — GAME DEV",
+    heroBig: "PORTFOLIO",
     heroSub: "Portable and desktop projects — gifs, descriptions and the character of every game in one place. Flip through them like on a console.",
     portableEyebrow: "01 — PORTABLE",
     portableTitle: "Games in your pocket",
@@ -254,10 +257,18 @@ function buildTagsMarkup(tags){
   const btnPrev = document.getElementById("mobilePrev");
   const btnNext = document.getElementById("mobileNext");
   const led = document.getElementById("phoneLed");
+  const speedBtn = document.getElementById("speedBtn");
 
   let current = 0;
   let isAnimating = false;
   let isOpen = false;
+  let isFast = false;
+
+  function applySpeed(){
+    const vid = mediaSlot.querySelector("video");
+    if (vid) vid.playbackRate = isFast ? 2 : 1;
+    speedBtn.classList.toggle("is-active", isFast);
+  }
 
   function pad(n){ return String(n).padStart(2, "0"); }
 
@@ -314,6 +325,7 @@ function buildTagsMarkup(tags){
     mediaSlot.innerHTML = "";
     placeholderPath.textContent = game.gif;
     mediaSlot.appendChild(buildMediaEl(game.gif, game.title));
+    applySpeed();
 
     titleEl.textContent = game.title;
     descEl.textContent = game.description[currentLang];
@@ -367,6 +379,10 @@ function buildTagsMarkup(tags){
   backBtn.addEventListener("click", closeDetail);
   btnPrev.addEventListener("click", () => goTo(current - 1));
   btnNext.addEventListener("click", () => goTo(current + 1));
+  speedBtn.addEventListener("click", () => {
+    isFast = !isFast;
+    applySpeed();
+  });
 
   document.addEventListener("keydown", (e) => {
     if (!isOpen) return;

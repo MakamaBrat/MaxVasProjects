@@ -138,7 +138,7 @@ p{ margin: 0; }
 .hero{
   position: relative;
   z-index: 1;
-  min-height: 86vh;
+  min-height: 56vh;
   display: flex;
   flex-direction: column;
   padding-bottom: 40px;
@@ -179,6 +179,15 @@ p{ margin: 0; }
 .hero-body h1{
   font-size: clamp(38px, 7vw, 76px);
   line-height: 1.02;
+}
+.hero-big{
+  font-size: clamp(64px, 12vw, 160px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  background: linear-gradient(160deg, var(--text-primary) 40%, var(--amber));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .hero-sub{
   font-size: clamp(15px, 1.6vw, 18px);
@@ -241,9 +250,9 @@ main{ position: relative; z-index: 1; }
 =================================================================== */
 .mobile-grid{
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 18px;
-  max-width: 920px;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 20px;
+  max-width: 1040px;
   margin: 0 auto;
   transition: opacity .3s var(--ease), transform .3s var(--ease);
 }
@@ -464,6 +473,30 @@ body.detail-open{ overflow: hidden; }
   z-index: 2;
 }
 
+.speed-btn{
+  position: absolute;
+  top: 12px; right: 12px;
+  z-index: 3;
+  border: 1px solid rgba(246,185,77,0.4);
+  background: rgba(13,11,19,0.65);
+  backdrop-filter: blur(4px);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  padding: 6px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
+}
+.speed-btn:hover{ border-color: var(--amber); }
+.speed-btn.is-active{
+  background: var(--amber);
+  border-color: var(--amber);
+  color: #14111c;
+}
+
 .phone-home{
   position: absolute;
   bottom: 10px; left: 50%; transform: translateX(-50%);
@@ -664,7 +697,7 @@ body.detail-open{ overflow: hidden; }
   .pad-btn svg{ width: 18px; height: 18px; }
   .topnav-links{ gap: 16px; }
   .topnav-links a{ font-size: 12.5px; }
-  .mobile-grid{ grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+  .mobile-grid{ grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
 }
 
 /* reduced motion */
