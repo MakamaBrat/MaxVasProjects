@@ -14,7 +14,7 @@ const MOBILE_GAMES = [
   },
   {
     title: "",
-    description: "Медитативная головоломка про выращивание сада на маленьком экране. Без таймеров и давления.",
+    description: "",
     gif: "assets/mobile/game1.gif",
     tags: ["Пазл", "Godot"]
   },
