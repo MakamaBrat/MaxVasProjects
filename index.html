@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAME_DEV — портфолио игр</title>
+<meta name="description" content="Портфолио разработчика игр: портативные и настольные проекты с гифками, описаниями и переключением как на консоли.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="hero">
+  <nav class="topnav">
+    <span class="brand">GAME_DEV<span class="brand-dot">.</span></span>
+    <div class="topnav-links">
+      <a href="#portable">Портативные</a>
+      <a href="#desktop">На большом экране</a>
+    </div>
+  </nav>
+
+  <div class="hero-body">
+    <span class="eyebrow eyebrow-amber">PORTFOLIO — GAME DEV</span>
+    <h1>Игры, в которые<br>хочется вернуться</h1>
+    <p class="hero-sub">Портативные и настольные проекты — гифки, описания и характер каждой игры в одном месте. Листай стрелками, как на консоли.</p>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= PORTABLE / PHONE SECTION ================= -->
+  <section id="portable" class="portable-section">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-amber">01 — ПОРТАТИВНЫЕ</span>
+      <h2>Игры в кармане</h2>
+      <p>Переключай стрелками, клавишами ←/→ или свайпом — прямо как на настоящей консоли.</p>
+    </div>
+
+    <div class="console-stage">
+      <button class="pad-btn pad-left" id="mobilePrev" aria-label="Предыдущая игра">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <div class="phone-mock">
+        <div class="phone-led" id="phoneLed"></div>
+        <div class="phone-speaker"></div>
+        <div class="phone-screen" id="phoneScreen">
+          <div class="gif-placeholder">
+            <span class="ph-icon">▦</span>
+            <span class="ph-text">Положи .gif сюда:</span>
+            <code id="placeholderPath">assets/mobile/game-1.gif</code>
+          </div>
+          <img id="mobileGif" alt="" draggable="false">
+          <div class="scanlines"></div>
+          <div class="screen-glare"></div>
+        </div>
+        <div class="phone-home"></div>
+      </div>
+
+      <button class="pad-btn pad-right" id="mobileNext" aria-label="Следующая игра">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="game-info" id="mobileInfo">
+      <span class="game-index mono" id="mobileIndex">01 / 04</span>
+      <h3 id="mobileTitle">Название игры</h3>
+      <p id="mobileDesc">Описание игры появится здесь.</p>
+      <div class="tags" id="mobileTags"></div>
+    </div>
+
+    <div class="dots" id="mobileDots"></div>
+  </section>
+
+  <!-- ================= DESKTOP / HORIZONTAL SECTION ================= -->
+  <section id="desktop" class="desktop-section">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-cyan">02 — ГОРИЗОНТАЛЬНЫЕ</span>
+      <h2>Игры на большом экране</h2>
+      <p>Полка проектов — пролистай вправо мышью, тачпадом или свайпом.</p>
+    </div>
+
+    <div class="shelf-wrap">
+      <button class="shelf-arrow shelf-arrow-left" id="shelfPrev" aria-label="Прокрутить влево">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="shelf" id="desktopShelf"></div>
+      <button class="shelf-arrow shelf-arrow-right" id="shelfNext" aria-label="Прокрутить вправо">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Сделано как шаблон портфолио. Замени гифки в <code>assets/mobile</code> / <code>assets/desktop</code> и тексты в <code>script.js</code> — на свои.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
