@@ -138,10 +138,9 @@ p{ margin: 0; }
 .hero{
   position: relative;
   z-index: 1;
-  min-height: 56vh;
   display: flex;
   flex-direction: column;
-  padding-bottom: 40px;
+  padding-bottom: 6px;
 }
 
 .topnav{
@@ -168,13 +167,11 @@ p{ margin: 0; }
 .topnav-links a:hover{ color: var(--amber); }
 
 .hero-body{
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 22px;
-  max-width: 780px;
-  padding: 0 clamp(20px, 6vw, 72px);
+  align-items: center;
+  text-align: center;
+  padding: 28px clamp(20px, 6vw, 72px) 0;
 }
 .hero-body h1{
   font-size: clamp(38px, 7vw, 76px);
@@ -189,39 +186,13 @@ p{ margin: 0; }
   background-clip: text;
   color: transparent;
 }
-.hero-sub{
-  font-size: clamp(15px, 1.6vw, 18px);
-  color: var(--text-muted);
-  max-width: 520px;
-  line-height: 1.55;
-}
-
-.hero-scroll{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text-faint);
-  font-family: var(--font-pixel);
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  align-self: center;
-}
-.scroll-line{
-  width: 1px; height: 34px;
-  background: linear-gradient(var(--text-faint), transparent);
-  animation: scrollPulse 2s ease-in-out infinite;
-}
-@keyframes scrollPulse{
-  0%,100%{ opacity: .3; }
-  50%{ opacity: 1; }
-}
 
 /* ===================================================================
    SECTION HEAD (shared)
 =================================================================== */
 .section-head{
   max-width: 620px;
-  margin: 0 auto 48px;
+  margin: 0 auto 32px;
   padding: 0 24px;
   text-align: center;
   display: flex;
@@ -241,7 +212,7 @@ p{ margin: 0; }
 main{ position: relative; z-index: 1; }
 
 .portable-section, .desktop-section{
-  padding: 100px 20px 110px;
+  padding: 20px 20px 110px;
 }
 .desktop-section{ background: linear-gradient(180deg, transparent, rgba(87,217,200,0.035) 15%, rgba(87,217,200,0.035) 85%, transparent); }
 
@@ -318,16 +289,23 @@ main{ position: relative; z-index: 1; }
   -webkit-overflow-scrolling: touch;
   background: var(--bg-void);
   padding: clamp(70px, 10vh, 110px) 20px 60px;
+}
+.mobile-detail[hidden]{ display: none; }
+body.detail-open{ overflow: hidden; }
+
+/* the background above is solid the instant the overlay is shown, so the
+   grid behind it (with its own already-playing videos) can never show
+   through — only the inner content fades/slides in on top of it. */
+.detail-inner{
   opacity: 0;
   transform: translateY(14px);
   transition: opacity .35s var(--ease), transform .35s var(--ease);
 }
-.mobile-detail[hidden]{ display: none; }
-.mobile-detail.is-visible{
+.mobile-detail.is-visible .detail-inner,
+.desktop-detail.is-visible .detail-inner{
   opacity: 1;
   transform: translateY(0);
 }
-body.detail-open{ overflow: hidden; }
 
 .back-btn{
   display: flex;
@@ -369,6 +347,7 @@ body.detail-open{ overflow: hidden; }
   transition: transform .12s var(--ease), box-shadow .12s var(--ease);
   flex-shrink: 0;
 }
+.pad-btn[hidden]{ display: none; }
 .pad-btn svg{ width: 22px; height: 22px; }
 .pad-btn:hover{ box-shadow: 0 6px 0 rgba(0,0,0,0.35), 0 0 0 4px rgba(246,185,77,0.12); }
 .pad-btn:active{
@@ -558,6 +537,7 @@ body.detail-open{ overflow: hidden; }
   gap: 8px;
   margin-top: 26px;
 }
+.dots[hidden]{ display: none; }
 .dot{
   width: 7px; height: 7px;
   border-radius: 50%;
@@ -667,6 +647,52 @@ body.detail-open{ overflow: hidden; }
 @media (max-width: 720px){
   .shelf-arrow{ display: none; }
 }
+
+.shelf-card{ cursor: pointer; }
+
+/* ===================================================================
+   DESKTOP DETAIL (fullscreen "TV" view for horizontal games)
+=================================================================== */
+.desktop-detail{
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg-void);
+  padding: clamp(70px, 10vh, 110px) 20px 60px;
+}
+.desktop-detail[hidden]{ display: none; }
+
+.tv-stage{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 4vw, 46px);
+}
+
+.tv-mock{
+  position: relative;
+  width: min(920px, 88vw);
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(160deg, #2b2440, #191424);
+  border-radius: 22px;
+  padding: 14px;
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,0.04) inset,
+    0 30px 60px -20px rgba(0,0,0,0.65),
+    0 0 80px -10px rgba(87,217,200,0.1);
+  flex-shrink: 0;
+}
+.tv-screen{
+  position: relative;
+  width: 100%; height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d0b13;
+}
+.tv-screen.is-switching .media-slot img,
+.tv-screen.is-switching .media-slot video{ opacity: 0; transform: scale(0.96); }
 
 /* ===================================================================
    FOOTER

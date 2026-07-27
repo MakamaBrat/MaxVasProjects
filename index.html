@@ -38,14 +38,7 @@
   </nav>
 
   <div class="hero-body">
-    <span class="eyebrow eyebrow-amber" data-i18n="heroEyebrow">PORTFOLIO — GAME DEV</span>
     <h1 class="hero-big" data-i18n="heroBig">PORTFOLIO</h1>
-    <p class="hero-sub" data-i18n="heroSub">Портативные и настольные проекты — гифки, описания и характер каждой игры в одном месте.</p>
-  </div>
-
-  <div class="hero-scroll" aria-hidden="true">
-    <span>SCROLL</span>
-    <div class="scroll-line"></div>
   </div>
 </header>
 
@@ -55,8 +48,6 @@
   <section id="portable" class="portable-section">
     <div class="section-head">
       <span class="eyebrow eyebrow-amber" data-i18n="portableEyebrow">01 — ПОРТАТИВНЫЕ</span>
-      <h2 data-i18n="portableTitle">Игры в кармане</h2>
-      <p data-i18n="portableSub">Выбери игру — она откроется на экране телефона со стрелками и описанием.</p>
     </div>
 
     <!-- grid of small preview cards, shown by default -->
@@ -64,6 +55,7 @@
 
     <!-- expanded phone view, hidden until a card is clicked -->
     <div class="mobile-detail" id="mobileDetail" hidden>
+     <div class="detail-inner">
 
       <button class="back-btn" id="backToGrid">
         <svg viewBox="0 0 24 24" fill="none"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -105,6 +97,7 @@
       </div>
 
       <div class="dots" id="mobileDots"></div>
+     </div>
     </div>
   </section>
 
@@ -112,8 +105,6 @@
   <section id="desktop" class="desktop-section">
     <div class="section-head">
       <span class="eyebrow eyebrow-cyan" data-i18n="desktopEyebrow">02 — ГОРИЗОНТАЛЬНЫЕ</span>
-      <h2 data-i18n="desktopTitle">Игры на большом экране</h2>
-      <p data-i18n="desktopSub">Полка проектов — пролистай вправо мышью, тачпадом или свайпом.</p>
     </div>
 
     <div class="shelf-wrap">
@@ -124,6 +115,45 @@
       <button class="shelf-arrow shelf-arrow-right" id="shelfNext" aria-label="Прокрутить вправо">
         <svg viewBox="0 0 24 24" fill="none"><path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
+    </div>
+
+    <!-- expanded fullscreen view for the horizontal games -->
+    <div class="desktop-detail" id="desktopDetail" hidden>
+     <div class="detail-inner">
+
+      <button class="back-btn" id="backToShelf">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-i18n="backToGrid">Все игры</span>
+      </button>
+
+      <div class="tv-stage">
+        <button class="pad-btn pad-left" id="desktopPrev" aria-label="Предыдущая игра">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="tv-mock">
+          <div class="tv-screen" id="tvScreen">
+            <div class="media-slot" id="tvMediaSlot"></div>
+            <div class="scanlines"></div>
+            <div class="screen-glare"></div>
+            <button type="button" class="speed-btn" id="tvSpeedBtn" aria-label="Ускорить x2">×2</button>
+          </div>
+        </div>
+
+        <button class="pad-btn pad-right" id="desktopNext" aria-label="Следующая игра">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <div class="game-info" id="tvInfo">
+        <span class="game-index mono" id="tvIndex">01 / 01</span>
+        <h3 id="tvTitle">Название игры</h3>
+        <p id="tvDesc">Описание игры появится здесь.</p>
+        <div class="tags" id="tvTags"></div>
+      </div>
+
+      <div class="dots" id="tvDots"></div>
+     </div>
     </div>
   </section>
 

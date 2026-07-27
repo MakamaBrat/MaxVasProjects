@@ -361,6 +361,8 @@ function buildTagsMarkup(tags){
     buildDots();
     render();
 
+    grid.querySelectorAll("video").forEach(v => v.pause());
+
     detail.hidden = false;
     document.body.classList.add("detail-open");
     detail.scrollTop = 0;
@@ -374,6 +376,8 @@ function buildTagsMarkup(tags){
     setTimeout(() => {
       detail.hidden = true;
     }, 320);
+
+    grid.querySelectorAll("video").forEach(v => { v.play().catch(() => {}); });
   }
 
   backBtn.addEventListener("click", closeDetail);
@@ -416,6 +420,131 @@ function buildTagsMarkup(tags){
   const btnPrev = document.getElementById("shelfPrev");
   const btnNext = document.getElementById("shelfNext");
 
+  /* ---------- fullscreen TV detail (mirrors the phone console) ---------- */
+  const detail = document.getElementById("desktopDetail");
+  const backBtn = document.getElementById("backToShelf");
+  const screen = document.getElementById("tvScreen");
+  const mediaSlot = document.getElementById("tvMediaSlot");
+  const info = document.getElementById("tvInfo");
+  const titleEl = document.getElementById("tvTitle");
+  const descEl = document.getElementById("tvDesc");
+  const indexEl = document.getElementById("tvIndex");
+  const tagsEl = document.getElementById("tvTags");
+  const dotsWrap = document.getElementById("tvDots");
+  const detailPrev = document.getElementById("desktopPrev");
+  const detailNext = document.getElementById("desktopNext");
+  const speedBtn = document.getElementById("tvSpeedBtn");
+
+  let current = 0;
+  let isAnimating = false;
+  let isOpen = false;
+  let isFast = false;
+
+  function pad(n){ return String(n).padStart(2, "0"); }
+
+  function applySpeed(){
+    const vid = mediaSlot.querySelector("video");
+    if (vid) vid.playbackRate = isFast ? 2 : 1;
+    speedBtn.classList.toggle("is-active", isFast);
+  }
+
+  function buildDots(){
+    dotsWrap.innerHTML = "";
+    DESKTOP_GAMES.forEach((_, i) => {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "dot" + (i === current ? " is-active" : "");
+      dot.setAttribute("aria-label", `${i + 1}`);
+      dot.addEventListener("click", () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+  }
+
+  function render(){
+    const game = DESKTOP_GAMES[current];
+
+    mediaSlot.innerHTML = "";
+    mediaSlot.appendChild(buildMediaEl(game.gif, game.title));
+    applySpeed();
+
+    titleEl.textContent = game.title;
+    descEl.textContent = game.description[currentLang];
+    indexEl.textContent = `${pad(current + 1)} / ${pad(DESKTOP_GAMES.length)}`;
+    tagsEl.innerHTML = buildTagsMarkup(game.tags);
+
+    [...dotsWrap.children].forEach((d, i) => d.classList.toggle("is-active", i === current));
+  }
+
+  function goTo(i){
+    if (isAnimating || i === current || DESKTOP_GAMES.length <= 1) return;
+    isAnimating = true;
+    screen.classList.add("is-switching");
+    info.classList.add("is-switching");
+
+    setTimeout(() => {
+      current = (i + DESKTOP_GAMES.length) % DESKTOP_GAMES.length;
+      render();
+      screen.classList.remove("is-switching");
+      info.classList.remove("is-switching");
+      isAnimating = false;
+    }, 220);
+  }
+
+  function openDetail(i){
+    current = i;
+    isOpen = true;
+    buildDots();
+    render();
+
+    shelf.querySelectorAll("video").forEach(v => v.pause());
+
+    const isSingle = DESKTOP_GAMES.length <= 1;
+    detailPrev.hidden = isSingle;
+    detailNext.hidden = isSingle;
+    dotsWrap.hidden = isSingle;
+
+    detail.hidden = false;
+    document.body.classList.add("detail-open");
+    detail.scrollTop = 0;
+    requestAnimationFrame(() => detail.classList.add("is-visible"));
+  }
+
+  function closeDetail(){
+    isOpen = false;
+    detail.classList.remove("is-visible");
+    document.body.classList.remove("detail-open");
+    setTimeout(() => {
+      detail.hidden = true;
+    }, 320);
+
+    shelf.querySelectorAll("video").forEach(v => { v.play().catch(() => {}); });
+  }
+
+  backBtn.addEventListener("click", closeDetail);
+  detailPrev.addEventListener("click", () => goTo(current - 1));
+  detailNext.addEventListener("click", () => goTo(current + 1));
+  speedBtn.addEventListener("click", () => {
+    isFast = !isFast;
+    applySpeed();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (!isOpen) return;
+    if (e.key === "ArrowLeft") goTo(current - 1);
+    if (e.key === "ArrowRight") goTo(current + 1);
+    if (e.key === "Escape") closeDetail();
+  });
+
+  let touchStartX = null;
+  screen.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  screen.addEventListener("touchend", (e) => {
+    if (touchStartX === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+    touchStartX = null;
+  }, { passive: true });
+
+  /* ---------- shelf ---------- */
   function buildShelf(){
     shelf.innerHTML = "";
     DESKTOP_GAMES.forEach((game, i) => {
@@ -441,6 +570,7 @@ function buildTagsMarkup(tags){
 
       card.appendChild(media);
       card.appendChild(body);
+      card.addEventListener("click", () => openDetail(i));
       shelf.appendChild(card);
     });
 
@@ -448,6 +578,8 @@ function buildTagsMarkup(tags){
     shelf.classList.toggle("is-single", isSingle);
     btnPrev.hidden = isSingle;
     btnNext.hidden = isSingle;
+
+    if (isOpen) render();
   }
 
   function scrollByCard(dir){
