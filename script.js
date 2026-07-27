@@ -9,34 +9,28 @@ const MOBILE_GAMES = [
   {
     title: "Chicken Spin",
     description: "Nice Arcade About Chicken",
-    gif: "assets/mobile/game0.gif",
+    gif: "assets/mobile/gif0.gif",
     tags: ["Аркада", "Unity"]
-  },
-  {
-    title: "",
-    description: "",
-    gif: "assets/mobile/game1.gif",
-    tags: ["Пазл", "Godot"]
-  },
-  {
-    title: "Дрифт Точка",
-    description: "Мини-гонка с физикой заноса и одним пальцем на руле. Трассы генерируются на лету.",
-    gif: "assets/mobile/game-3.gif",
-    tags: ["Гонки", "Unity"]
   },
   {
     title: "Taroxa",
     description: "Приятно анимированная Telegram Mini App игра про Таро карточки и предсказания",
-    gif: "assets/mobile/game4.gif",
+    gif: "assets/mobile/gif1.gif",
     tags: ["Roguelike", "LibGDX"]
+  },
+  {
+    title: "Дрифт Точка",
+    description: "Мини-гонка с физикой заноса и одним пальцем на руле. Трассы генерируются на лету.",
+    gif: "assets/mobile/gif2.gif",
+    tags: ["Гонки", "Unity"]
   }
 ];
 
 const DESKTOP_GAMES = [
   {
     title: "Atomic Casino",
-    description: "Атмосферные слоты Social Casino в духе постапокалиптического мира в стиле Сталкер Falout,
-    gif: "assets/desktop/game0.gif",
+    description: "Атмосферные слоты Social Casino в духе постапокалиптического мира в стиле Сталкер/Fallout.",
+    gif: "assets/desktop/gif0.gif",
     tags: ["Immersive sim", "Unreal"]
   }
 ];
