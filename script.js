@@ -134,7 +134,6 @@ const UI = {
     navPortable: "Портативные",
     navDesktop: "На большом экране",
     heroEyebrow: "PORTFOLIO — GAME DEV",
-    heroTitleLines: ["Игры, в которые", "хочется вернуться"],
     heroSub: "Портативные и настольные проекты — гифки, описания и характер каждой игры в одном месте. Листай стрелками, как на консоли.",
     portableEyebrow: "01 — ПОРТАТИВНЫЕ",
     portableTitle: "Игры в кармане",
@@ -152,7 +151,6 @@ const UI = {
     navPortable: "Портативні",
     navDesktop: "На великому екрані",
     heroEyebrow: "PORTFOLIO — GAME DEV",
-    heroTitleLines: ["Ігри, до яких", "хочеться повертатись"],
     heroSub: "Портативні та настільні проєкти — гіфки, описи та характер кожної гри в одному місці. Гортай стрілками, як на консолі.",
     portableEyebrow: "01 — ПОРТАТИВНІ",
     portableTitle: "Ігри в кишені",
@@ -170,7 +168,6 @@ const UI = {
     navPortable: "Portable",
     navDesktop: "On the big screen",
     heroEyebrow: "PORTFOLIO — GAME DEV",
-    heroTitleLines: ["Games worth", "coming back to"],
     heroSub: "Portable and desktop projects — gifs, descriptions and the character of every game in one place. Flip through them like on a console.",
     portableEyebrow: "01 — PORTABLE",
     portableTitle: "Games in your pocket",
@@ -352,21 +349,18 @@ function buildTagsMarkup(tags){
     buildDots();
     render();
 
-    grid.classList.add("is-leaving");
-    setTimeout(() => {
-      grid.hidden = true;
-      detail.hidden = false;
-      requestAnimationFrame(() => detail.classList.add("is-visible"));
-    }, 260);
+    detail.hidden = false;
+    document.body.classList.add("detail-open");
+    detail.scrollTop = 0;
+    requestAnimationFrame(() => detail.classList.add("is-visible"));
   }
 
   function closeDetail(){
     isOpen = false;
     detail.classList.remove("is-visible");
+    document.body.classList.remove("detail-open");
     setTimeout(() => {
       detail.hidden = true;
-      grid.hidden = false;
-      requestAnimationFrame(() => grid.classList.remove("is-leaving"));
     }, 320);
   }
 
@@ -433,6 +427,11 @@ function buildTagsMarkup(tags){
       card.appendChild(body);
       shelf.appendChild(card);
     });
+
+    const isSingle = DESKTOP_GAMES.length <= 1;
+    shelf.classList.toggle("is-single", isSingle);
+    btnPrev.hidden = isSingle;
+    btnNext.hidden = isSingle;
   }
 
   function scrollByCard(dir){
@@ -454,14 +453,12 @@ function buildTagsMarkup(tags){
 =================================================================== */
 (function initLangSwitch(){
   const wrap = document.getElementById("langSwitch");
-  const heroTitle = document.getElementById("heroTitle");
 
   function applyStaticText(){
     document.querySelectorAll("[data-i18n]").forEach(el => {
       const key = el.getAttribute("data-i18n");
       if (UI[currentLang][key] !== undefined) el.textContent = tr(key);
     });
-    heroTitle.innerHTML = tr("heroTitleLines").join("<br>");
     document.documentElement.lang = currentLang;
     [...wrap.children].forEach(btn => btn.classList.toggle("is-active", btn.dataset.lang === currentLang));
   }
