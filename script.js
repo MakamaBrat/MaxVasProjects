@@ -890,23 +890,24 @@ function buildTagsMarkup(tags){
 
     let points;
     if (salary >= IDEAL_SALARY) {
-      /* выше 2400 — зарплата решает всё, галочки больше не важны */
+      /* выше 2400 — зарплата даёт всё больший бонус, но галочки по-прежнему учитываются,
+         чтобы результат рос вместе с деньгами, а не проваливался на пороге 2400 */
       points = 40 + 75 * (salary - IDEAL_SALARY) / Math.max(1, MAX_SALARY - IDEAL_SALARY);
     } else {
       points = salary >= LOW_SALARY
         ? 40 * (salary - LOW_SALARY) / (IDEAL_SALARY - LOW_SALARY)
         : -20 * (LOW_SALARY - salary) / Math.max(1, LOW_SALARY - MIN_SALARY); /* < 1000 — плохо, чем меньше, тем хуже */
-
-      points += team.checked ? 15 : -5;
-      points += crypto.checked ? 5 : -5;        /* крипта — небольшой плюс, не решает */
-      points += freeSchedule.checked ? 15 : -5;
-      points += calls.checked ? -15 : 15;       /* частые созвоны — плохо */
-      points += deadlines.checked ? -10 : 5;    /* жёсткие дедлайны — плохо */
-      points += bureaucracy.checked ? 5 : -5;   /* минимум бюрократии — небольшой плюс, не решает */
     }
 
+    points += team.checked ? 15 : -5;
+    points += crypto.checked ? 5 : -5;        /* крипта — небольшой плюс, не решает */
+    points += freeSchedule.checked ? 15 : -5;
+    points += calls.checked ? -15 : 15;       /* частые созвоны — плохо */
+    points += deadlines.checked ? -10 : 5;    /* жёсткие дедлайны — плохо */
+    points += bureaucracy.checked ? 5 : -5;   /* минимум бюрократии — небольшой плюс, не решает */
+
     const MIN_POINTS = -65;
-    const MAX_POINTS = 115;
+    const MAX_POINTS = 175;
     const percent = Math.round(((points - MIN_POINTS) / (MAX_POINTS - MIN_POINTS)) * 100);
 
     let level;
