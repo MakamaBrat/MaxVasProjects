@@ -714,12 +714,17 @@ body.detail-open{ overflow: hidden; }
 }
 
 /* on phones: only one window instead of two, sized to fit the screen
-   like a single big screen (same idea as the horizontal/TV view) */
+   like a single big screen (same idea as the horizontal/TV view).
+   Width is computed explicitly (not width:auto + aspect-ratio) because
+   that combo collapses to 0 width inside a flex row on some mobile
+   browsers, which is why the gif wasn't showing. */
 @media (max-width: 720px){
   .phones-wrap .phone-mock:nth-child(2){ display: none; }
   .phones-wrap .phone-mock{
-    width: auto;
-    height: min(62vh, 620px);
+    aspect-ratio: auto;
+    height: min(72vh, 700px);
+    width: calc(min(72vh, 700px) * 0.4615);
+    max-width: 92vw;
   }
 }
 
