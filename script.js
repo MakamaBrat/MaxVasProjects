@@ -13,7 +13,7 @@ const MOBILE_GAMES = [
     title: "Chicken Spin",
     gif: "assets/mobile/Chicken Spin.mp4",
     icon: "assets/mobile/ChickenSpin Icon.png",
-    tags: ["Аркада", "Unity", "Firebase SDK Analytics", "Animator"],
+    tags: ["Аркада", "Unity", "Firebase SDK Analytics", "Animator", "Android"],
     description: {
       ru: "Весёлая аркада про курицу — крути, собирай очки, не теряй перья.",
       uk: "Весела аркада про курку — крутись, збирай очки, не губи пір'я.",
@@ -24,7 +24,7 @@ const MOBILE_GAMES = [
     title: "Taroxa",
     gif: "assets/mobile/Taroxa.mp4",
     icon: "assets/mobile/Taroxa Icon.png",
-    tags: ["Telegram Mini App", "Google Analytics", "Supabase"],
+    tags: ["Telegram Mini App", "Google Analytics", "Supabase", "iOS"],
     description: {
       ru: "Приятно анимированная Telegram Mini App игра про Таро-карты и предсказания.",
       uk: "Приємно анімована Telegram Mini App гра про Таро-карти та передбачення.",
@@ -35,7 +35,7 @@ const MOBILE_GAMES = [
     title: "CVGrams",
     gif: "assets/mobile/CV GRAMs.MP4",
     icon: "assets/mobile/CVGRAMs icon.png",
-    tags: ["Telegram Mini App", "Google Analytics", "Supabase"],
+    tags: ["Telegram Mini App", "Google Analytics", "Supabase", "WebGL"],
     description: {
       ru: "Telegram Mini App, где резюме превращается в интерактивную игровую карточку.",
       uk: "Telegram Mini App, де резюме перетворюється на інтерактивну ігрову картку.",
@@ -46,7 +46,7 @@ const MOBILE_GAMES = [
     title: "Bow and Woods",
     gif: "assets/mobile/BowAndWoods.mp4",
     icon: "assets/mobile/BowAndWoodsIcon.png",
-    tags: ["Аркада", "Unity", "Firebase SDK Remote", "ChatGPT"],
+    tags: ["Аркада", "Unity", "Firebase SDK Remote", "ChatGPT", "Android"],
     description: {
       ru: "Аркада про стрельбу из лука в лесной чаще — целься точнее с каждым уровнем.",
       uk: "Аркада про стрільбу з лука в лісовій хащі — цілься точніше з кожним рівнем.",
@@ -57,7 +57,7 @@ const MOBILE_GAMES = [
     title: "Chicken Sushi Rush",
     gif: "assets/mobile/Chicken Sushi Rush.mp4",
     icon: "assets/mobile/Chicken Rush Icon.png",
-    tags: ["Раннер", "Unity", "Animator", "Gemini"],
+    tags: ["Раннер", "Unity", "Animator", "Gemini", "iOS"],
     description: {
       ru: "Забавный раннер, где курица спасается бегством по кухне суши-бара.",
       uk: "Кумедний раннер, де курка тікає кухнею суші-бару.",
@@ -68,7 +68,7 @@ const MOBILE_GAMES = [
     title: "Grand Artick Legend",
     gif: "assets/mobile/Grand Artick Legend.mp4",
     icon: "assets/mobile/GrandArcticLegends.png",
-    tags: ["Приключение", "Unreal", "Firebase SDK Analytics", "Claude"],
+    tags: ["Приключение", "Unreal", "Firebase SDK Analytics", "Claude", "WebGL"],
     description: {
       ru: "Приключение среди льдов — исследуй арктические земли и древние легенды.",
       uk: "Пригода серед льодів — досліджуй арктичні землі та давні легенди.",
@@ -79,7 +79,7 @@ const MOBILE_GAMES = [
     title: "Magic Board",
     gif: "assets/mobile/MagicBoard.mp4",
     icon: "assets/mobile/Magic Board.png",
-    tags: ["Пазл", "Godot", "Firebase SDK Remote", "Animator"],
+    tags: ["Пазл", "Godot", "Firebase SDK Remote", "Animator", "Android"],
     description: {
       ru: "Настольная головоломка с элементами магии — собирай комбинации на волшебной доске.",
       uk: "Настільна головоломка з елементами магії — збирай комбінації на чарівній дошці.",
@@ -90,7 +90,7 @@ const MOBILE_GAMES = [
     title: "Rookie Strike",
     gif: "assets/mobile/Rookie Strike.mp4",
     icon: "assets/mobile/Rookie Strike.png",
-    tags: ["Шутер", "Unity", "ChatGPT", "Firebase SDK Analytics"],
+    tags: ["Шутер", "Unity", "ChatGPT", "Firebase SDK Analytics", "iOS"],
     description: {
       ru: "Аркадный шутер для новичков — быстрые раунды, простое управление, много экшена.",
       uk: "Аркадний шутер для новачків — швидкі раунди, просте керування, багато екшену.",
@@ -101,7 +101,7 @@ const MOBILE_GAMES = [
     title: "Yukon Gold",
     gif: "assets/mobile/Yukongold.mp4",
     icon: "assets/mobile/Youkon gold.png",
-    tags: ["Казино", "Unity", "Firebase SDK Remote", "Gemini"],
+    tags: ["Казино", "Unity", "Firebase SDK Remote", "Gemini", "WebGL"],
     description: {
       ru: "Игровые слоты в стиле золотой лихорадки Юкона.",
       uk: "Ігрові слоти у стилі золотої лихоманки Юкону.",
@@ -112,7 +112,7 @@ const MOBILE_GAMES = [
     title: "Postman",
     gif: "assets/mobile/PostmanGame.gif",
     icon: "assets/mobile/PostmanIcon.png",
-    tags: ["Аркада", "Unity"],
+    tags: ["Аркада", "Unity", "Android"],
     description: {
       ru: "Аркада про почтальона — доставляй посылки быстро и без потерь.",
       uk: "Аркада про листоношу — доставляй посилки швидко і без втрат.",
@@ -122,7 +122,7 @@ const MOBILE_GAMES = [
   {
     title: "Car Repair",
     gif: "assets/mobile/CarRepair.gif",
-    tags: ["Аркада", "Unity", "Animator"],
+    tags: ["Аркада", "Unity", "Animator", "iOS"],
     description: {
       ru: "Аркада про ремонт машин — почини авто вовремя и не завали заказ.",
       uk: "Аркада про ремонт авто — полагодь машину вчасно і не зірви замовлення.",
@@ -133,7 +133,7 @@ const MOBILE_GAMES = [
     title: "Jack Fisher",
     gif: "assets/mobile/Jack Fisher.gif",
     icon: "assets/mobile/JackFish.png",
-    tags: ["Аркада", "Unity", "Animator"],
+    tags: ["Аркада", "Unity", "Animator", "WebGL"],
     description: {
       ru: "Рыбацкая аркада про Джека — закидывай удочку и лови улов покрупнее.",
       uk: "Рибальська аркада про Джека — закидай вудку і лови улов покрупніше.",
@@ -200,6 +200,7 @@ const UI = {
     matchFreeSchedule: "Свободный график",
     matchBureaucracy: "Минимум бюрократии",
     matchCrypto: "Оплата в крипте",
+    todayViewsLabel: "Сегодня было просмотров:",
     matchLevels: [
       "Это точно нет.",
       "Очень маловероятно.",
@@ -242,6 +243,7 @@ const UI = {
     matchFreeSchedule: "Вільний графік",
     matchBureaucracy: "Мінімум бюрократії",
     matchCrypto: "Оплата в крипті",
+    todayViewsLabel: "Сьогодні було переглядів:",
     matchLevels: [
       "Це точно ні.",
       "Дуже малоймовірно.",
@@ -284,6 +286,7 @@ const UI = {
     matchFreeSchedule: "Flexible schedule",
     matchBureaucracy: "Minimal bureaucracy",
     matchCrypto: "Paid in crypto",
+    todayViewsLabel: "Views today:",
     matchLevels: [
       "That's a hard no.",
       "Very unlikely.",
@@ -864,7 +867,7 @@ function buildTagsMarkup(tags){
   if (!salaryInput) return;
 
   const IDEAL_SALARY = 2400;
-  const LOW_SALARY = 1000;   /* ниже этой планки — уже плохо */
+  const LOW_SALARY = 1200;   /* ниже этой планки — уже плохо */
   const MIN_SALARY = Number(salaryInput.min) || 500;
 
   /* emo-шкала: emoMin4 (худшая) ... emoMin0 (нейтраль) ... emo4 (лучшая) */
@@ -895,11 +898,11 @@ function buildTagsMarkup(tags){
         : -20 * (LOW_SALARY - salary) / Math.max(1, LOW_SALARY - MIN_SALARY); /* < 1000 — плохо, чем меньше, тем хуже */
 
       points += team.checked ? 15 : -5;
-      points += crypto.checked ? 15 : -5;
+      points += crypto.checked ? 5 : -5;        /* крипта — небольшой плюс, не решает */
       points += freeSchedule.checked ? 15 : -5;
       points += calls.checked ? -15 : 15;       /* частые созвоны — плохо */
       points += deadlines.checked ? -10 : 5;    /* жёсткие дедлайны — плохо */
-      points += bureaucracy.checked ? 10 : -5;  /* минимум бюрократии — хорошо */
+      points += bureaucracy.checked ? 5 : -5;   /* минимум бюрократии — небольшой плюс, не решает */
     }
 
     const MIN_POINTS = -65;
@@ -1123,4 +1126,31 @@ function buildTagsMarkup(tags){
   });
 
   draw();
+})();
+
+/* ===================================================================
+   "СЕГОДНЯ БЫЛО ПРОСМОТРОВ" — псевдослучайное число 8..20,
+   привязанное к сегодняшней дате. Число одно и то же весь день
+   и меняется на следующий день.
+=================================================================== */
+(function(){
+  const numEl = document.getElementById("todayViewsNum");
+  if (!numEl) return;
+
+  function seededRandom(seed){
+    // детерминированный генератор 0..1 на основе числового сида
+    let x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  }
+
+  function todayViewsCount(){
+    const now = new Date();
+    // сид — дата в виде числа ГГГГММДД, каждый день даёт новое значение
+    const seed = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+    const rnd = seededRandom(seed);
+    const MIN = 8, MAX = 20;
+    return Math.floor(rnd * (MAX - MIN + 1)) + MIN;
+  }
+
+  numEl.textContent = String(todayViewsCount());
 })();
