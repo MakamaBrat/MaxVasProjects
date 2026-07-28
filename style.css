@@ -731,10 +731,10 @@ body.detail-open{ overflow: hidden; }
   .shelf-arrow{ display: none; }
 }
 
-/* on phones: only one window instead of two */
+/* on phones: only one window instead of two, and it's big like the TV view */
 @media (max-width: 720px){
   .phones-wrap .phone-mock:nth-child(2){ display: none; }
-  .phones-wrap .phone-mock{ width: min(280px, 66vw); }
+  .phones-wrap .phone-mock{ width: min(420px, 88vw); }
 }
 
 .shelf-card{ cursor: pointer; }
