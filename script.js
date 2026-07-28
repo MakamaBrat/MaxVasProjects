@@ -118,6 +118,27 @@ const MOBILE_GAMES = [
       uk: "Аркада про листоношу — доставляй посилки швидко і без втрат.",
       en: "An arcade game about a postman — deliver parcels fast without losing any."
     }
+  },
+  {
+    title: "Car Repair",
+    gif: "assets/mobile/CarRepair.gif",
+    tags: ["Аркада", "Unity", "Animator"],
+    description: {
+      ru: "Аркада про ремонт машин — почини авто вовремя и не завали заказ.",
+      uk: "Аркада про ремонт авто — полагодь машину вчасно і не зірви замовлення.",
+      en: "A car-repair arcade — fix the vehicle in time and don't blow the order."
+    }
+  },
+  {
+    title: "Jack Fisher",
+    gif: "assets/mobile/Jack Fisher.gif",
+    icon: "assets/mobile/JackFish.png",
+    tags: ["Аркада", "Unity", "Animator"],
+    description: {
+      ru: "Рыбацкая аркада про Джека — закидывай удочку и лови улов покрупнее.",
+      uk: "Рибальська аркада про Джека — закидай вудку і лови улов покрупніше.",
+      en: "A fishing arcade starring Jack — cast the line and reel in the big catch."
+    }
   }
 ];
 
