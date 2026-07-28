@@ -457,7 +457,7 @@ body.detail-open{ overflow: hidden; }
   gap: 12px;
 }
 .phones-wrap .phone-mock{
-  width: min(170px, 34vw);
+  width: min(240px, 42vw);
 }
 .phones-wrap .speed-btn{
   top: 10px;

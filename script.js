@@ -99,13 +99,24 @@ const MOBILE_GAMES = [
   },
   {
     title: "Yukon Gold",
-    gif: "assets/mobile/Yukon Gold.mp4",
+    gif: "assets/mobile/Yukongold.mp4",
     icon: "assets/mobile/Youkon gold.png",
     tags: ["Казино", "Unity", "Firebase SDK Remote", "Gemini"],
     description: {
       ru: "Игровые слоты в стиле золотой лихорадки Юкона.",
       uk: "Ігрові слоти у стилі золотої лихоманки Юкону.",
       en: "Slot-style gameplay set during the Yukon gold rush."
+    }
+  },
+  {
+    title: "Postman",
+    gif: "assets/mobile/PostmanGame.gif",
+    icon: "assets/mobile/PostmanIcon.png",
+    tags: ["Аркада", "Unity"],
+    description: {
+      ru: "Аркада про почтальона — доставляй посылки быстро и без потерь.",
+      uk: "Аркада про листоношу — доставляй посилки швидко і без втрат.",
+      en: "An arcade game about a postman — deliver parcels fast without losing any."
     }
   }
 ];
