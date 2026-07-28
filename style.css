@@ -440,36 +440,38 @@ body.detail-open{ overflow: hidden; }
   transition: opacity .38s var(--ease), transform .5s var(--ease);
 }
 .media-slot img.is-visible, .media-slot video.is-visible{ opacity: 1; transform: scale(1); }
-.phone-screen.is-switching .media-slot img,
-.phone-screen.is-switching .media-slot video{ opacity: 0; transform: scale(0.96); }
+.phones-wrap.is-switching .media-slot img,
+.phones-wrap.is-switching .media-slot video{ opacity: 0; transform: scale(0.96); }
 
-/* opened phone view = TWO windows side by side */
-.phone-duo{
-  position: absolute; inset: 0;
+/* opened phone view = TWO separate phone mockups, left side of the screen */
+.mobile-stage-layout{
   display: flex;
-  gap: 3px;
-  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 5vw, 64px);
+  flex-wrap: wrap;
 }
-.phone-duo-panel{
+.phones-wrap{
   position: relative;
-  flex: 1 1 0;
-  overflow: hidden;
-  background: var(--bg-panel-raised);
+  display: flex;
+  gap: 12px;
 }
-.phone-duo-panel img, .phone-duo-panel video{
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transform: scale(1.04);
-  transition: opacity .38s var(--ease), transform .5s var(--ease);
+.phones-wrap .phone-mock{
+  width: min(170px, 34vw);
 }
-.phone-duo-panel img.is-visible, .phone-duo-panel video.is-visible{ opacity: 1; transform: scale(1); }
-.phone-screen.is-switching .phone-duo-panel img,
-.phone-screen.is-switching .phone-duo-panel video{ opacity: 0; transform: scale(0.96); }
-.phone-duo-panel .gif-placeholder{ padding: 8px; }
-.phone-duo-panel .ph-text, .phone-duo-panel code{ display: none; }
-.phone-duo-panel .ph-icon{ font-size: 20px; }
+.phones-wrap .speed-btn{
+  top: 10px;
+  right: 10px;
+}
+
+/* info panel sits on the right side */
+.mobile-stage-layout .game-info{
+  margin: 0;
+  text-align: left;
+  align-items: flex-start;
+  max-width: 320px;
+}
+.mobile-stage-layout .tags{ justify-content: flex-start; }
 
 .scanlines{
   position: absolute; inset: 0;

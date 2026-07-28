@@ -62,33 +62,28 @@
         <span data-i18n="backToGrid">Все игры</span>
       </button>
 
-      <div class="console-stage">
-        <button class="pad-btn pad-left" id="mobilePrev" aria-label="Предыдущая игра">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
+      <div class="mobile-stage-layout">
+        <div class="console-stage">
+          <button class="pad-btn pad-left" id="mobilePrev" aria-label="Предыдущая игра">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
 
-        <div class="phone-mock">
-          <div class="phone-led" id="phoneLed"></div>
-          <div class="phone-speaker"></div>
-          <div class="phone-screen" id="phoneScreen">
-            <div class="phone-duo" id="phoneDuo"></div>
-            <div class="scanlines"></div>
-            <div class="screen-glare"></div>
+          <div class="phones-wrap" id="phonesWrap">
             <button type="button" class="speed-btn" id="speedBtn" aria-label="Ускорить x2">×2</button>
           </div>
-          <div class="phone-home"></div>
+
+          <button class="pad-btn pad-right" id="mobileNext" aria-label="Следующая игра">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
         </div>
 
-        <button class="pad-btn pad-right" id="mobileNext" aria-label="Следующая игра">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
-
-      <div class="game-info" id="mobileInfo">
-        <span class="game-index mono" id="mobileIndex">01 / 01</span>
-        <h3 id="mobileTitle">Название игры</h3>
-        <p id="mobileDesc">Описание игры появится здесь.</p>
-        <div class="tags" id="mobileTags"></div>
+        <div class="game-info" id="mobileInfo">
+          <div class="game-info-icon" id="mobileIcon" hidden><img id="mobileIconImg" src="" alt=""></div>
+          <span class="game-index mono" id="mobileIndex">01 / 01</span>
+          <h3 id="mobileTitle">Название игры</h3>
+          <p id="mobileDesc">Описание игры появится здесь.</p>
+          <div class="tags" id="mobileTags"></div>
+        </div>
       </div>
 
       <div class="dots" id="mobileDots"></div>

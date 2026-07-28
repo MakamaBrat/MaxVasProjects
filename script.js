@@ -254,9 +254,10 @@ function buildTagsMarkup(tags){
   const detail = document.getElementById("mobileDetail");
   const backBtn = document.getElementById("backToGrid");
 
-  const screen = document.getElementById("phoneScreen");
-  const phoneDuo = document.getElementById("phoneDuo");
+  const phonesWrap = document.getElementById("phonesWrap");
   const info = document.getElementById("mobileInfo");
+  const iconWrap = document.getElementById("mobileIcon");
+  const iconImg = document.getElementById("mobileIconImg");
   const titleEl = document.getElementById("mobileTitle");
   const descEl = document.getElementById("mobileDesc");
   const indexEl = document.getElementById("mobileIndex");
@@ -264,7 +265,6 @@ function buildTagsMarkup(tags){
   const dotsWrap = document.getElementById("mobileDots");
   const btnPrev = document.getElementById("mobilePrev");
   const btnNext = document.getElementById("mobileNext");
-  const led = document.getElementById("phoneLed");
   const speedBtn = document.getElementById("speedBtn");
 
   let current = 0;
@@ -273,22 +273,35 @@ function buildTagsMarkup(tags){
   let isFast = false;
 
   function applySpeed(){
-    phoneDuo.querySelectorAll("video").forEach(v => { v.playbackRate = isFast ? 2 : 1; });
+    phonesWrap.querySelectorAll("video").forEach(v => { v.playbackRate = isFast ? 2 : 1; });
     speedBtn.classList.toggle("is-active", isFast);
   }
 
   function pad(n){ return String(n).padStart(2, "0"); }
 
-  /* ---------- shared: a panel with its own placeholder + media ---------- */
-  function buildDuoPanel(game, offsetHalf, cls){
-    const panel = document.createElement("div");
-    panel.className = cls;
+  /* ---------- a full standalone phone mockup (its own window) ---------- */
+  function buildPhoneMock(game, offsetHalf){
+    const mock = document.createElement("div");
+    mock.className = "phone-mock";
+
+    const led = document.createElement("div");
+    led.className = "phone-led";
+    mock.appendChild(led);
+
+    const speaker = document.createElement("div");
+    speaker.className = "phone-speaker";
+    mock.appendChild(speaker);
+
+    const screenEl = document.createElement("div");
+    screenEl.className = "phone-screen";
 
     const ph = document.createElement("div");
     ph.className = "gif-placeholder";
     ph.innerHTML = `<span class="ph-icon">▦</span>`;
-    panel.appendChild(ph);
+    screenEl.appendChild(ph);
 
+    const mediaSlot = document.createElement("div");
+    mediaSlot.className = "media-slot";
     const mediaEl = buildMediaEl(game.gif, game.title);
     if (offsetHalf && mediaEl.tagName === "VIDEO"){
       mediaEl.addEventListener("loadedmetadata", () => {
@@ -297,8 +310,15 @@ function buildTagsMarkup(tags){
         }
       });
     }
-    panel.appendChild(mediaEl);
-    return panel;
+    mediaSlot.appendChild(mediaEl);
+    screenEl.appendChild(mediaSlot);
+
+    screenEl.appendChild(Object.assign(document.createElement("div"), { className: "scanlines" }));
+    screenEl.appendChild(Object.assign(document.createElement("div"), { className: "screen-glare" }));
+
+    mock.appendChild(screenEl);
+    mock.appendChild(Object.assign(document.createElement("div"), { className: "phone-home" }));
+    return mock;
   }
 
   /* ---------- grid: small card = ONE window, no icon/description ---------- */
@@ -354,9 +374,9 @@ function buildTagsMarkup(tags){
   function render(){
     const game = MOBILE_GAMES[current];
 
-    phoneDuo.innerHTML = "";
-    phoneDuo.appendChild(buildDuoPanel(game, false, "phone-duo-panel"));
-    phoneDuo.appendChild(buildDuoPanel(game, true, "phone-duo-panel"));
+    phonesWrap.querySelectorAll(".phone-mock").forEach(el => el.remove());
+    phonesWrap.appendChild(buildPhoneMock(game, false));
+    phonesWrap.appendChild(buildPhoneMock(game, true));
     applySpeed();
 
     titleEl.textContent = game.title;
@@ -364,23 +384,26 @@ function buildTagsMarkup(tags){
     indexEl.textContent = `${pad(current + 1)} / ${pad(MOBILE_GAMES.length)}`;
     tagsEl.innerHTML = buildTagsMarkup(game.tags);
 
-    [...dotsWrap.children].forEach((d, i) => d.classList.toggle("is-active", i === current));
+    if (game.icon){
+      iconImg.src = game.icon;
+      iconWrap.hidden = false;
+    } else {
+      iconWrap.hidden = true;
+    }
 
-    led.style.animation = "none";
-    void led.offsetWidth;
-    led.style.animation = "";
+    [...dotsWrap.children].forEach((d, i) => d.classList.toggle("is-active", i === current));
   }
 
   function goTo(i){
     if (isAnimating || i === current) return;
     isAnimating = true;
-    screen.classList.add("is-switching");
+    phonesWrap.classList.add("is-switching");
     info.classList.add("is-switching");
 
     setTimeout(() => {
       current = (i + MOBILE_GAMES.length) % MOBILE_GAMES.length;
       render();
-      screen.classList.remove("is-switching");
+      phonesWrap.classList.remove("is-switching");
       info.classList.remove("is-switching");
       isAnimating = false;
     }, 220);
@@ -428,8 +451,8 @@ function buildTagsMarkup(tags){
   });
 
   let touchStartX = null;
-  screen.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
-  screen.addEventListener("touchend", (e) => {
+  phonesWrap.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  phonesWrap.addEventListener("touchend", (e) => {
     if (touchStartX === null) return;
     const dx = e.changedTouches[0].clientX - touchStartX;
     if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
