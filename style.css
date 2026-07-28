@@ -719,7 +719,7 @@ body.detail-open{ overflow: hidden; }
    that combo collapses to 0 width inside a flex row on some mobile
    browsers, which is why the gif wasn't showing. */
 @media (max-width: 720px){
-  .phones-wrap .phone-mock:nth-child(2){ display: none; }
+  .phones-wrap .phone-mock:nth-of-type(2){ display: none; }
   .phones-wrap .phone-mock{
     aspect-ratio: auto;
     height: min(72vh, 700px);
