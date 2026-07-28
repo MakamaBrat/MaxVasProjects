@@ -53,36 +53,18 @@ img{ max-width: 100%; display: block; }
 code{ font-family: 'Space Grotesk', monospace; }
 
 /* ===================================================================
-   PARALLAX BACKGROUND (assets/Pallarax — decorative, non-interactive)
+   TOP TITLE
 =================================================================== */
-.parallax-bg{
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-.parallax-layer{
-  position: absolute;
-  top: 0;
-  left: -6%;
-  width: 112%;
-  max-width: none;
-  opacity: 0.55;
-  will-change: transform;
-}
-/* первая картинка (0.png) плывёт поверх остальных и перекрывает их
-   по максимуму; 1/2/3 идут друг за другом с нахлёстом всего 25% */
-#parallaxBg .parallax-layer:nth-child(1){ z-index: 4; opacity: 0.6; }
-#parallaxBg .parallax-layer:nth-child(2){ z-index: 1; }
-#parallaxBg .parallax-layer:nth-child(3){ z-index: 2; }
-#parallaxBg .parallax-layer:nth-child(4){ z-index: 3; }
-@media (max-width: 720px){
-  .parallax-layer{ opacity: 0.35; }
-  #parallaxBg .parallax-layer:nth-child(1){ opacity: 0.4; }
-}
-@media (prefers-reduced-motion: reduce){
-  .parallax-layer{ transition: none; }
+.site-top-title{
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 22px 20px 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(18px, 3vw, 26px);
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
 }
 
 ::selection{ background: var(--amber); color: #14111c; }
@@ -731,10 +713,14 @@ body.detail-open{ overflow: hidden; }
   .shelf-arrow{ display: none; }
 }
 
-/* on phones: only one window instead of two, and it's big like the TV view */
+/* on phones: only one window instead of two, sized to fit the screen
+   like a single big screen (same idea as the horizontal/TV view) */
 @media (max-width: 720px){
   .phones-wrap .phone-mock:nth-child(2){ display: none; }
-  .phones-wrap .phone-mock{ width: min(420px, 88vw); }
+  .phones-wrap .phone-mock{
+    width: auto;
+    height: min(62vh, 620px);
+  }
 }
 
 .shelf-card{ cursor: pointer; }
@@ -939,6 +925,33 @@ body.detail-open{ overflow: hidden; }
 .site-footer code{
   color: var(--amber);
   font-size: 12px;
+}
+.contact-cta{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.contact-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(246,185,77,0.35);
+  background: linear-gradient(160deg, var(--bg-panel-hi), var(--bg-panel));
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+  text-decoration: none;
+  transition: transform .15s var(--ease), box-shadow .15s var(--ease), background .15s var(--ease);
+}
+.contact-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(246,185,77,0.15);
+  background: linear-gradient(160deg, var(--bg-panel-raised), var(--bg-panel-hi));
 }
 
 /* ===================================================================
