@@ -14,6 +14,13 @@
 
 <div class="grain"></div>
 
+<div class="parallax-bg" id="parallaxBg" aria-hidden="true">
+  <img class="parallax-layer" data-speed="0.15" data-side="0.6" src="assets/Pallarax/0.png" alt="">
+  <img class="parallax-layer" data-speed="0.28" data-side="-0.8" src="assets/Pallarax/1.png" alt="">
+  <img class="parallax-layer" data-speed="0.42" data-side="0.9" src="assets/Pallarax/2.png" alt="">
+  <img class="parallax-layer" data-speed="0.58" data-side="-0.6" src="assets/Pallarax/3.png" alt="">
+</div>
+
 <header class="hero">
 
   <div class="topbar">
@@ -148,10 +155,47 @@
     </div>
   </section>
 
+  <!-- ================= MATCH / COOPERATION CHECK SECTION ================= -->
+  <section id="match" class="match-section">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-magenta" data-i18n="matchEyebrow">03 — ПРОВЕРКА СОВМЕСТИМОСТИ</span>
+    </div>
+    <h2 class="match-title" data-i18n="matchTitle">Насколько мы подходим друг другу?</h2>
+    <p class="match-sub" data-i18n="matchSub">Выставь условия оффера — и посмотри на честную реакцию.</p>
+
+    <div class="match-panel">
+      <div class="match-controls">
+
+        <div class="match-field">
+          <div class="match-field-top">
+            <label for="matchSalary" data-i18n="matchSalaryLabel">Зарплата</label>
+            <span class="match-salary-value" id="matchSalaryValue">2000$</span>
+          </div>
+          <input type="range" id="matchSalary" min="500" max="5000" step="50" value="2000">
+        </div>
+
+        <div class="match-checks">
+          <label class="match-check"><input type="checkbox" id="matchDeadlines"><span data-i18n="matchDeadlines">Жёсткие дедлайны</span></label>
+          <label class="match-check"><input type="checkbox" id="matchCalls"><span data-i18n="matchCalls">Частые созвоны</span></label>
+          <label class="match-check"><input type="checkbox" id="matchTeam"><span data-i18n="matchTeam">Помощь команды</span></label>
+          <label class="match-check"><input type="checkbox" id="matchFreeSchedule"><span data-i18n="matchFreeSchedule">Свободный график</span></label>
+          <label class="match-check"><input type="checkbox" id="matchBureaucracy"><span data-i18n="matchBureaucracy">Минимум бюрократии</span></label>
+          <label class="match-check"><input type="checkbox" id="matchCrypto"><span data-i18n="matchCrypto">Оплата в крипте</span></label>
+        </div>
+
+      </div>
+
+      <div class="match-result">
+        <img id="matchEmoji" class="match-emoji" src="assets/emo/emoMin0.png" alt="">
+        <span class="match-percent" id="matchPercent">0%</span>
+        <span class="match-label" id="matchLabel"></span>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-footer">
-  <p data-i18n="footer">Сделано как шаблон портфолио. Замени гифки в assets/mobile / assets/desktop и тексты в script.js — на свои.</p>
 </footer>
 
 <script src="script.js"></script>

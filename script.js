@@ -165,7 +165,27 @@ const UI = {
     desktopTitle: "Игры на большом экране",
     desktopSub: "Полка проектов — пролистай вправо мышью, тачпадом или свайпом.",
     addGifHere: "Положи файл сюда:",
-    footer: "Сделано как шаблон портфолио. Замени медиафайлы в assets/mobile / assets/desktop и данные в script.js — на свои."
+    matchEyebrow: "03 — ПРОВЕРКА СОВМЕСТИМОСТИ",
+    matchTitle: "Насколько мы подходим друг другу?",
+    matchSub: "Выставь условия оффера — и посмотри на честную реакцию.",
+    matchSalaryLabel: "Зарплата",
+    matchDeadlines: "Жёсткие дедлайны",
+    matchCalls: "Частые созвоны",
+    matchTeam: "Помощь команды",
+    matchFreeSchedule: "Свободный график",
+    matchBureaucracy: "Минимум бюрократии",
+    matchCrypto: "Оплата в крипте",
+    matchLevels: [
+      "Это точно нет.",
+      "Очень маловероятно.",
+      "Так себе условия.",
+      "Есть над чем подумать.",
+      "Более-менее нормально.",
+      "Неплохо, можно рассмотреть.",
+      "Хорошие условия!",
+      "Очень интересно!",
+      "Это мечта, погнали работать!"
+    ]
   },
   uk: {
     statProjects: "реалізованих проєктів",
@@ -183,7 +203,27 @@ const UI = {
     desktopTitle: "Ігри на великому екрані",
     desktopSub: "Полиця проєктів — прогортай вправо мишею, тачпадом або свайпом.",
     addGifHere: "Поклади файл сюди:",
-    footer: "Зроблено як шаблон портфоліо. Заміни медіафайли в assets/mobile / assets/desktop та дані в script.js — на свої."
+    matchEyebrow: "03 — ПЕРЕВІРКА СУМІСНОСТІ",
+    matchTitle: "Наскільки ми підходимо одне одному?",
+    matchSub: "Вистав умови офера — і подивись на чесну реакцію.",
+    matchSalaryLabel: "Зарплата",
+    matchDeadlines: "Жорсткі дедлайни",
+    matchCalls: "Часті скликання",
+    matchTeam: "Допомога команди",
+    matchFreeSchedule: "Вільний графік",
+    matchBureaucracy: "Мінімум бюрократії",
+    matchCrypto: "Оплата в крипті",
+    matchLevels: [
+      "Це точно ні.",
+      "Дуже малоймовірно.",
+      "Так собі умови.",
+      "Є над чим подумати.",
+      "Більш-менш нормально.",
+      "Непогано, можна розглянути.",
+      "Гарні умови!",
+      "Дуже цікаво!",
+      "Це мрія, погнали працювати!"
+    ]
   },
   en: {
     statProjects: "shipped projects",
@@ -201,7 +241,27 @@ const UI = {
     desktopTitle: "Games on the big screen",
     desktopSub: "A shelf of projects — scroll right with a mouse, trackpad or swipe.",
     addGifHere: "Drop the file here:",
-    footer: "Built as a portfolio template. Swap the media in assets/mobile / assets/desktop and the data in script.js for your own."
+    matchEyebrow: "03 — COMPATIBILITY CHECK",
+    matchTitle: "How well do we fit?",
+    matchSub: "Set the offer terms — and see an honest reaction.",
+    matchSalaryLabel: "Salary",
+    matchDeadlines: "Tight deadlines",
+    matchCalls: "Frequent calls",
+    matchTeam: "Team support",
+    matchFreeSchedule: "Flexible schedule",
+    matchBureaucracy: "Minimal bureaucracy",
+    matchCrypto: "Paid in crypto",
+    matchLevels: [
+      "That's a hard no.",
+      "Very unlikely.",
+      "Not great terms.",
+      "Something to think about.",
+      "More or less fine.",
+      "Not bad, worth considering.",
+      "Sounds good!",
+      "Very interesting!",
+      "This is a dream, let's work!"
+    ]
   }
 };
 
@@ -387,7 +447,9 @@ function buildTagsMarkup(tags){
 
     phonesWrap.querySelectorAll(".phone-mock").forEach(el => el.remove());
     phonesWrap.appendChild(buildPhoneMock(game, false));
-    phonesWrap.appendChild(buildPhoneMock(game, true));
+    if (!window.matchMedia("(max-width: 720px)").matches){
+      phonesWrap.appendChild(buildPhoneMock(game, true));
+    }
     applySpeed();
 
     titleEl.textContent = game.title;
@@ -471,6 +533,15 @@ function buildTagsMarkup(tags){
   }, { passive: true });
 
   buildGrid();
+
+  let wasMobileLayout = window.matchMedia("(max-width: 720px)").matches;
+  window.addEventListener("resize", () => {
+    const isMobileLayout = window.matchMedia("(max-width: 720px)").matches;
+    if (isMobileLayout !== wasMobileLayout){
+      wasMobileLayout = isMobileLayout;
+      if (isOpen) render();
+    }
+  });
 
   window.__refreshMobile = () => {
     buildGrid();
@@ -673,6 +744,145 @@ function buildTagsMarkup(tags){
 })();
 
 /* ===================================================================
+   PARALLAX BACKGROUND (assets/Pallarax/0..3.png)
+   Каждая картинка "закрывает" предыдущую наполовину (сдвиг = 50%
+   её реальной высоты), плюс у каждого слоя своя вертикальная скорость
+   и лёгкое покачивание в стороны. Слой сидит за контентом и не
+   перехватывает клики (pointer-events: none на контейнере).
+=================================================================== */
+(function initParallaxBg(){
+  const layers = Array.from(document.querySelectorAll(".parallax-layer"));
+  if (!layers.length) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function layout(){
+    let top = 0;
+    layers.forEach(img => {
+      img.dataset.baseTop = top;
+      const h = img.offsetHeight || img.naturalHeight * (img.offsetWidth / (img.naturalWidth || 1)) || 300;
+      top += h * 0.5; /* следующая картинка перекрывает эту на 50% высоты */
+    });
+  }
+
+  function onScroll(){
+    if (reduceMotion) return;
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    layers.forEach((img, i) => {
+      const speed = parseFloat(img.dataset.speed) || 0.3;
+      const side = parseFloat(img.dataset.side) || 0.5;
+      const baseTop = parseFloat(img.dataset.baseTop) || 0;
+      const y = baseTop - scrollY * speed;
+      const x = Math.sin(scrollY * 0.0018 + i * 1.7) * 36 * side; /* покачивание в стороны */
+      img.style.transform = `translate(calc(-50% + ${x.toFixed(1)}px), ${y.toFixed(1)}px)`;
+    });
+  }
+
+  let ticking = false;
+  function requestTick(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { onScroll(); ticking = false; });
+  }
+
+  layers.forEach(img => {
+    if (img.complete) layout();
+    else img.addEventListener("load", () => { layout(); onScroll(); });
+  });
+
+  window.addEventListener("scroll", requestTick, { passive: true });
+  window.addEventListener("resize", () => { layout(); onScroll(); });
+
+  layout();
+  onScroll();
+})();
+
+/* ===================================================================
+   MATCH / COOPERATION PROBABILITY WIDGET
+
+   Идеальный для меня оффер: зарплата ~2400$, помощь команды,
+   оплата в крипте, свободный график, без частых созвонов.
+   Дедлайны и бюрократия — чем их больше, тем хуже.
+=================================================================== */
+(function initMatchWidget(){
+  const salaryInput = document.getElementById("matchSalary");
+  const salaryValue = document.getElementById("matchSalaryValue");
+  const deadlines = document.getElementById("matchDeadlines");
+  const calls = document.getElementById("matchCalls");
+  const team = document.getElementById("matchTeam");
+  const freeSchedule = document.getElementById("matchFreeSchedule");
+  const bureaucracy = document.getElementById("matchBureaucracy");
+  const crypto = document.getElementById("matchCrypto");
+
+  const emojiEl = document.getElementById("matchEmoji");
+  const percentEl = document.getElementById("matchPercent");
+  const labelEl = document.getElementById("matchLabel");
+
+  if (!salaryInput) return;
+
+  const IDEAL_SALARY = 2400;
+
+  /* emo-шкала: emoMin4 (худшая) ... emoMin0 (нейтраль) ... emo4 (лучшая) */
+  const EMOJI_FILES = [
+    "assets/emo/emoMin4.png",
+    "assets/emo/emoMin3.png",
+    "assets/emo/emoMin2.png",
+    "assets/emo/emoMin1.png",
+    "assets/emo/emoMin0.png",
+    "assets/emo/emo1.png",
+    "assets/emo/emo2.png",
+    "assets/emo/emo3.png",
+    "assets/emo/emo4.png"
+  ];
+
+  function computeScore(){
+    const salary = Number(salaryInput.value);
+
+    let points = Math.max(0, 40 - (Math.abs(salary - IDEAL_SALARY) / IDEAL_SALARY) * 40);
+
+    points += team.checked ? 15 : -5;
+    points += crypto.checked ? 15 : -5;
+    points += freeSchedule.checked ? 15 : -5;
+    points += calls.checked ? -15 : 15;       /* частые созвоны — плохо */
+    points += deadlines.checked ? -10 : 5;    /* жёсткие дедлайны — плохо */
+    points += bureaucracy.checked ? 10 : -5;  /* минимум бюрократии — хорошо */
+
+    const MIN_POINTS = -45;
+    const MAX_POINTS = 115;
+    const percent = Math.round(((points - MIN_POINTS) / (MAX_POINTS - MIN_POINTS)) * 100);
+
+    let level;
+    if (points <= -30) level = 0;
+    else if (points <= -15) level = 1;
+    else if (points <= 0) level = 2;
+    else if (points <= 20) level = 3;
+    else if (points <= 40) level = 4;
+    else if (points <= 60) level = 5;
+    else if (points <= 80) level = 6;
+    else if (points <= 95) level = 7;
+    else level = 8;
+
+    return { percent: Math.min(100, Math.max(0, percent)), level };
+  }
+
+  function render(){
+    salaryValue.textContent = Number(salaryInput.value).toLocaleString("en-US") + "$";
+
+    const { percent, level } = computeScore();
+    emojiEl.src = EMOJI_FILES[level];
+    percentEl.textContent = percent + "%";
+    const levels = UI[currentLang].matchLevels;
+    labelEl.textContent = levels ? levels[level] : "";
+  }
+
+  [salaryInput, deadlines, calls, team, freeSchedule, bureaucracy, crypto]
+    .forEach(el => el.addEventListener("input", render));
+
+  render();
+  window.__refreshMatch = render;
+})();
+
+/* ===================================================================
    LANGUAGE SWITCH
 =================================================================== */
 (function initLangSwitch(){
@@ -694,6 +904,7 @@ function buildTagsMarkup(tags){
     applyStaticText();
     if (window.__refreshMobile) window.__refreshMobile();
     if (window.__refreshDesktop) window.__refreshDesktop();
+    if (window.__refreshMatch) window.__refreshMatch();
   }
 
   wrap.addEventListener("click", (e) => {
