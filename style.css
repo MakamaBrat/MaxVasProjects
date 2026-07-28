@@ -64,16 +64,22 @@ code{ font-family: 'Space Grotesk', monospace; }
 }
 .parallax-layer{
   position: absolute;
-  left: 50%;
   top: 0;
-  width: clamp(220px, 40vw, 520px);
+  left: -6%;
+  width: 112%;
   max-width: none;
   opacity: 0.55;
   will-change: transform;
-  transform: translate(-50%, 0);
 }
+/* первая картинка (0.png) плывёт поверх остальных и перекрывает их
+   по максимуму; 1/2/3 идут друг за другом с нахлёстом всего 25% */
+#parallaxBg .parallax-layer:nth-child(1){ z-index: 4; opacity: 0.6; }
+#parallaxBg .parallax-layer:nth-child(2){ z-index: 1; }
+#parallaxBg .parallax-layer:nth-child(3){ z-index: 2; }
+#parallaxBg .parallax-layer:nth-child(4){ z-index: 3; }
 @media (max-width: 720px){
-  .parallax-layer{ width: clamp(180px, 62vw, 360px); opacity: 0.4; }
+  .parallax-layer{ opacity: 0.35; }
+  #parallaxBg .parallax-layer:nth-child(1){ opacity: 0.4; }
 }
 @media (prefers-reduced-motion: reduce){
   .parallax-layer{ transition: none; }

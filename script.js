@@ -745,10 +745,11 @@ function buildTagsMarkup(tags){
 
 /* ===================================================================
    PARALLAX BACKGROUND (assets/Pallarax/0..3.png)
-   Каждая картинка "закрывает" предыдущую наполовину (сдвиг = 50%
-   её реальной высоты), плюс у каждого слоя своя вертикальная скорость
-   и лёгкое покачивание в стороны. Слой сидит за контентом и не
-   перехватывает клики (pointer-events: none на контейнере).
+   Слой 0 (первая картинка) плывёт поверх остальных и перекрывает их
+   максимально — стоит вровень с началом стопки. Слои 1/2/3 идут друг
+   за другом с нахлёстом 25% от своей реальной высоты. У каждого слоя
+   своя вертикальная скорость и лёгкое покачивание в стороны. Контейнер
+   сидит за контентом и не перехватывает клики (pointer-events: none).
 =================================================================== */
 (function initParallaxBg(){
   const layers = Array.from(document.querySelectorAll(".parallax-layer"));
@@ -756,12 +757,21 @@ function buildTagsMarkup(tags){
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  function heightOf(img){
+    return img.offsetHeight || img.naturalHeight * (img.offsetWidth / (img.naturalWidth || 1)) || 300;
+  }
+
   function layout(){
+    if (!layers.length) return;
+
+    /* слой 0 стартует вместе со слоем 1 — максимальный нахлёст между ними */
+    layers[0].dataset.baseTop = 0;
+
     let top = 0;
-    layers.forEach(img => {
+    layers.slice(1).forEach((img, idx) => {
       img.dataset.baseTop = top;
-      const h = img.offsetHeight || img.naturalHeight * (img.offsetWidth / (img.naturalWidth || 1)) || 300;
-      top += h * 0.5; /* следующая картинка перекрывает эту на 50% высоты */
+      const h = heightOf(img);
+      top += h * 0.75; /* нахлёст 25% между соседними картинками (1→2→3) */
     });
   }
 
@@ -773,8 +783,8 @@ function buildTagsMarkup(tags){
       const side = parseFloat(img.dataset.side) || 0.5;
       const baseTop = parseFloat(img.dataset.baseTop) || 0;
       const y = baseTop - scrollY * speed;
-      const x = Math.sin(scrollY * 0.0018 + i * 1.7) * 36 * side; /* покачивание в стороны */
-      img.style.transform = `translate(calc(-50% + ${x.toFixed(1)}px), ${y.toFixed(1)}px)`;
+      const x = Math.sin(scrollY * 0.0018 + i * 1.7) * 30 * side; /* покачивание в стороны */
+      img.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
     });
   }
 
@@ -838,7 +848,9 @@ function buildTagsMarkup(tags){
   function computeScore(){
     const salary = Number(salaryInput.value);
 
-    let points = Math.max(0, 40 - (Math.abs(salary - IDEAL_SALARY) / IDEAL_SALARY) * 40);
+    let points = salary >= IDEAL_SALARY
+      ? 40
+      : Math.max(0, 40 * (salary / IDEAL_SALARY));
 
     points += team.checked ? 15 : -5;
     points += crypto.checked ? 15 : -5;
