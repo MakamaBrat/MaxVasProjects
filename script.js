@@ -850,18 +850,24 @@ function buildTagsMarkup(tags){
   function computeScore(){
     const salary = Number(salaryInput.value);
 
-    let points = salary >= IDEAL_SALARY
-      ? 40
-      : salary >= LOW_SALARY
+    const MAX_SALARY = Number(salaryInput.max) || 5000;
+
+    let points;
+    if (salary >= IDEAL_SALARY) {
+      /* выше 2400 — зарплата решает всё, галочки больше не важны */
+      points = 40 + 75 * (salary - IDEAL_SALARY) / Math.max(1, MAX_SALARY - IDEAL_SALARY);
+    } else {
+      points = salary >= LOW_SALARY
         ? 40 * (salary - LOW_SALARY) / (IDEAL_SALARY - LOW_SALARY)
         : -20 * (LOW_SALARY - salary) / Math.max(1, LOW_SALARY - MIN_SALARY); /* < 1000 — плохо, чем меньше, тем хуже */
 
-    points += team.checked ? 15 : -5;
-    points += crypto.checked ? 15 : -5;
-    points += freeSchedule.checked ? 15 : -5;
-    points += calls.checked ? -15 : 15;       /* частые созвоны — плохо */
-    points += deadlines.checked ? -10 : 5;    /* жёсткие дедлайны — плохо */
-    points += bureaucracy.checked ? 10 : -5;  /* минимум бюрократии — хорошо */
+      points += team.checked ? 15 : -5;
+      points += crypto.checked ? 15 : -5;
+      points += freeSchedule.checked ? 15 : -5;
+      points += calls.checked ? -15 : 15;       /* частые созвоны — плохо */
+      points += deadlines.checked ? -10 : 5;    /* жёсткие дедлайны — плохо */
+      points += bureaucracy.checked ? 10 : -5;  /* минимум бюрократии — хорошо */
+    }
 
     const MIN_POINTS = -65;
     const MAX_POINTS = 115;
