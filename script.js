@@ -13,7 +13,7 @@ const MOBILE_GAMES = [
     title: "Chicken Spin",
     gif: "assets/mobile/Chicken Spin.mp4",
     icon: "assets/mobile/ChickenSpin Icon.png",
-    tags: ["Аркада", "Unity", "Firebase SDK Analytics", "Animator", "Android"],
+    tags: ["Аркада", "Unity", "Firebase SDK Analytics", "Animator", "iOS"],
     description: {
       ru: "Весёлая аркада про курицу — крути, собирай очки, не теряй перья.",
       uk: "Весела аркада про курку — крутись, збирай очки, не губи пір'я.",
@@ -35,7 +35,7 @@ const MOBILE_GAMES = [
     title: "CVGrams",
     gif: "assets/mobile/CV GRAMs.MP4",
     icon: "assets/mobile/CVGRAMs icon.png",
-    tags: ["Telegram Mini App", "Google Analytics", "Supabase", "WebGL"],
+    tags: ["Telegram Mini App", "Google Analytics", "Supabase", "Android"],
     description: {
       ru: "Telegram Mini App, где резюме превращается в интерактивную игровую карточку.",
       uk: "Telegram Mini App, де резюме перетворюється на інтерактивну ігрову картку.",
@@ -68,7 +68,7 @@ const MOBILE_GAMES = [
     title: "Grand Artick Legend",
     gif: "assets/mobile/Grand Artick Legend.mp4",
     icon: "assets/mobile/GrandArcticLegends.png",
-    tags: ["Приключение", "Unreal", "Firebase SDK Analytics", "Claude", "WebGL"],
+    tags: ["Приключение", "Unreal", "Firebase SDK Analytics", "Claude", "Android"],
     description: {
       ru: "Приключение среди льдов — исследуй арктические земли и древние легенды.",
       uk: "Пригода серед льодів — досліджуй арктичні землі та давні легенди.",
@@ -101,7 +101,7 @@ const MOBILE_GAMES = [
     title: "Yukon Gold",
     gif: "assets/mobile/Yukongold.mp4",
     icon: "assets/mobile/Youkon gold.png",
-    tags: ["Казино", "Unity", "Firebase SDK Remote", "Gemini", "WebGL"],
+    tags: ["Казино", "Unity", "Firebase SDK Remote", "Gemini", "iOS"],
     description: {
       ru: "Игровые слоты в стиле золотой лихорадки Юкона.",
       uk: "Ігрові слоти у стилі золотої лихоманки Юкону.",
@@ -122,7 +122,7 @@ const MOBILE_GAMES = [
   {
     title: "Car Repair",
     gif: "assets/mobile/CarRepair.gif",
-    tags: ["Аркада", "Unity", "Animator", "iOS"],
+    tags: ["Аркада", "Unity", "Animator", "Android"],
     description: {
       ru: "Аркада про ремонт машин — почини авто вовремя и не завали заказ.",
       uk: "Аркада про ремонт авто — полагодь машину вчасно і не зірви замовлення.",
@@ -133,7 +133,7 @@ const MOBILE_GAMES = [
     title: "Jack Fisher",
     gif: "assets/mobile/Jack Fisher.gif",
     icon: "assets/mobile/JackFish.png",
-    tags: ["Аркада", "Unity", "Animator", "WebGL"],
+    tags: ["Аркада", "Unity", "Animator", "iOS"],
     description: {
       ru: "Рыбацкая аркада про Джека — закидывай удочку и лови улов покрупнее.",
       uk: "Рибальська аркада про Джека — закидай вудку і лови улов покрупніше.",
