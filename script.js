@@ -1012,12 +1012,12 @@ function buildTagsMarkup(tags){
   const W = canvas.width, H = canvas.height;
   const GROUND_Y = H - 14;
 
-  const dino = { x: 16, y: GROUND_Y - 16, w: 14, h: 16, vy: 0, jumping: false };
-  const GRAVITY = 0.9;
-  const JUMP_V = -9.5;
+  const dino = { x: 20, y: GROUND_Y - 20, w: 18, h: 20, vy: 0, jumping: false };
+  const GRAVITY = 1.1;
+  const JUMP_V = -11.9;
 
   let obstacles = [];
-  let speed = 3;
+  let speed = 3.75;
   let frame = 0;
   let score = 0;
   let running = false;
@@ -1035,8 +1035,8 @@ function buildTagsMarkup(tags){
   }
 
   function spawnObstacle(){
-    const h = 12 + Math.random() * 10;
-    obstacles.push({ x: W + 4, y: GROUND_Y - h, w: 8 + Math.random() * 6, h });
+    const h = 15 + Math.random() * 12;
+    obstacles.push({ x: W + 4, y: GROUND_Y - h, w: 10 + Math.random() * 7, h });
   }
 
   function jump(){
@@ -1084,7 +1084,7 @@ function buildTagsMarkup(tags){
     obstacles = obstacles.filter(o => o.x + o.w > -4);
 
     // difficulty ramp
-    if (frame % 300 === 0) speed += 0.4;
+    if (frame % 300 === 0) speed += 0.5;
 
     // score
     if (frame % 6 === 0) {
