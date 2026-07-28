@@ -747,7 +747,7 @@ function buildTagsMarkup(tags){
    PARALLAX BACKGROUND (assets/Pallarax/0..3.png)
    Слой 0 (первая картинка) плывёт поверх остальных и перекрывает их
    максимально — стоит вровень с началом стопки. Слои 1/2/3 идут друг
-   за другом с нахлёстом 25% от своей реальной высоты. У каждого слоя
+   за другом с нахлёстом 10% от своей реальной высоты. У каждого слоя
    своя вертикальная скорость и лёгкое покачивание в стороны. Контейнер
    сидит за контентом и не перехватывает клики (pointer-events: none).
 =================================================================== */
@@ -771,7 +771,7 @@ function buildTagsMarkup(tags){
     layers.slice(1).forEach((img, idx) => {
       img.dataset.baseTop = top;
       const h = heightOf(img);
-      top += h * 0.75; /* нахлёст 25% между соседними картинками (1→2→3) */
+      top += h * 0.9; /* нахлёст 10% между соседними картинками (1→2→3) */
     });
   }
 
@@ -831,6 +831,8 @@ function buildTagsMarkup(tags){
   if (!salaryInput) return;
 
   const IDEAL_SALARY = 2400;
+  const LOW_SALARY = 1000;   /* ниже этой планки — уже плохо */
+  const MIN_SALARY = Number(salaryInput.min) || 500;
 
   /* emo-шкала: emoMin4 (худшая) ... emoMin0 (нейтраль) ... emo4 (лучшая) */
   const EMOJI_FILES = [
@@ -850,7 +852,9 @@ function buildTagsMarkup(tags){
 
     let points = salary >= IDEAL_SALARY
       ? 40
-      : Math.max(0, 40 * (salary / IDEAL_SALARY));
+      : salary >= LOW_SALARY
+        ? 40 * (salary - LOW_SALARY) / (IDEAL_SALARY - LOW_SALARY)
+        : -20 * (LOW_SALARY - salary) / Math.max(1, LOW_SALARY - MIN_SALARY); /* < 1000 — плохо, чем меньше, тем хуже */
 
     points += team.checked ? 15 : -5;
     points += crypto.checked ? 15 : -5;
@@ -859,7 +863,7 @@ function buildTagsMarkup(tags){
     points += deadlines.checked ? -10 : 5;    /* жёсткие дедлайны — плохо */
     points += bureaucracy.checked ? 10 : -5;  /* минимум бюрократии — хорошо */
 
-    const MIN_POINTS = -45;
+    const MIN_POINTS = -65;
     const MAX_POINTS = 115;
     const percent = Math.round(((points - MIN_POINTS) / (MAX_POINTS - MIN_POINTS)) * 100);
 
