@@ -454,7 +454,11 @@ function buildTagsMarkup(tags){
 
       const tagsRow = document.createElement("div");
       tagsRow.className = "grid-item-tags";
-      tagsRow.innerHTML = buildTagsMarkup(game.tags.slice(0, 2));
+      const platformTag = game.tags.find(t => t === "Android" || t === "iOS");
+      const previewTags = platformTag
+        ? [game.tags[0], platformTag]
+        : game.tags.slice(0, 2);
+      tagsRow.innerHTML = buildTagsMarkup(previewTags);
 
       item.appendChild(media);
       item.appendChild(body);
