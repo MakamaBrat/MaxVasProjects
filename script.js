@@ -157,6 +157,10 @@ const UI = {
     heroEyebrow: "PORTFOLIO — GAME DEV",
     heroBig: "ПОРТФОЛИО",
     heroSub: "Портативные и настольные проекты — гифки, описания и характер каждой игры в одном месте. Листай стрелками, как на консоли.",
+    loadingEyebrow: "00 — ЗАГРУЗКА",
+    loadingHint: "Можно поиграть, пока грузится страница",
+    dinoStart: "SPACE / ТАП — ПРЫЖОК",
+    dinoGameOver: "ИГРА ОКОНЧЕНА — ЕЩЁ РАЗ?",
     portableEyebrow: "01 — ПОРТАТИВНЫЕ",
     portableTitle: "Игры в кармане",
     portableSub: "Выбери игру — она откроется на экране телефона со стрелками и описанием.",
@@ -195,6 +199,10 @@ const UI = {
     heroEyebrow: "PORTFOLIO — GAME DEV",
     heroBig: "ПОРТФОЛІО",
     heroSub: "Портативні та настільні проєкти — гіфки, описи та характер кожної гри в одному місці. Гортай стрілками, як на консолі.",
+    loadingEyebrow: "00 — ЗАВАНТАЖЕННЯ",
+    loadingHint: "Можна погратись, поки завантажується сторінка",
+    dinoStart: "SPACE / ТАП — СТРИБОК",
+    dinoGameOver: "ГРУ ЗАВЕРШЕНО — ЩЕ РАЗ?",
     portableEyebrow: "01 — ПОРТАТИВНІ",
     portableTitle: "Ігри в кишені",
     portableSub: "Обери гру — вона відкриється на екрані телефону зі стрілками та описом.",
@@ -233,6 +241,10 @@ const UI = {
     heroEyebrow: "PORTFOLIO — GAME DEV",
     heroBig: "PORTFOLIO",
     heroSub: "Portable and desktop projects — gifs, descriptions and the character of every game in one place. Flip through them like on a console.",
+    loadingEyebrow: "00 — LOADING",
+    loadingHint: "You can play while the page loads",
+    dinoStart: "SPACE / TAP — JUMP",
+    dinoGameOver: "GAME OVER — AGAIN?",
     portableEyebrow: "01 — PORTABLE",
     portableTitle: "Games in your pocket",
     portableSub: "Pick a game — it opens on the phone screen with arrows and a description.",
@@ -936,4 +948,158 @@ function buildTagsMarkup(tags){
   });
 
   applyStaticText();
+})();
+
+/* ===================================================================
+   FAKE LOADING BAR
+=================================================================== */
+(function initLoadingBar(){
+  const fill = document.getElementById("loadingBarFill");
+  const percentEl = document.getElementById("loadingBarPercent");
+  if (!fill || !percentEl) return;
+
+  let pct = 0;
+  const timer = setInterval(() => {
+    pct += Math.random() * 9 + 3;
+    if (pct >= 100) {
+      pct = 100;
+      clearInterval(timer);
+    }
+    fill.style.width = pct + "%";
+    percentEl.textContent = Math.round(pct) + "%";
+  }, 140);
+})();
+
+/* ===================================================================
+   MINI DINO RUNNER (small, low-footprint canvas game)
+=================================================================== */
+(function initDinoGame(){
+  const canvas = document.getElementById("dinoCanvas");
+  const overlay = document.getElementById("dinoOverlay");
+  const scoreEl = document.getElementById("dinoScore");
+  if (!canvas || !overlay || !scoreEl) return;
+
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const GROUND_Y = H - 14;
+
+  const dino = { x: 16, y: GROUND_Y - 16, w: 14, h: 16, vy: 0, jumping: false };
+  const GRAVITY = 0.9;
+  const JUMP_V = -9.5;
+
+  let obstacles = [];
+  let speed = 3;
+  let frame = 0;
+  let score = 0;
+  let running = false;
+  let rafId = null;
+
+  function resetState(){
+    dino.y = GROUND_Y - dino.h;
+    dino.vy = 0;
+    dino.jumping = false;
+    obstacles = [];
+    speed = 3;
+    frame = 0;
+    score = 0;
+    scoreEl.textContent = "000";
+  }
+
+  function spawnObstacle(){
+    const h = 12 + Math.random() * 10;
+    obstacles.push({ x: W + 4, y: GROUND_Y - h, w: 8 + Math.random() * 6, h });
+  }
+
+  function jump(){
+    if (!running) { start(); return; }
+    if (!dino.jumping) {
+      dino.vy = JUMP_V;
+      dino.jumping = true;
+    }
+  }
+
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+
+    // ground
+    ctx.strokeStyle = "rgba(156,147,174,0.5)";
+    ctx.beginPath();
+    ctx.moveTo(0, GROUND_Y + 1);
+    ctx.lineTo(W, GROUND_Y + 1);
+    ctx.stroke();
+
+    // dino
+    ctx.fillStyle = "#f6b94d";
+    ctx.fillRect(dino.x, dino.y, dino.w, dino.h);
+
+    // obstacles
+    ctx.fillStyle = "#57d9c8";
+    obstacles.forEach(o => ctx.fillRect(o.x, o.y, o.w, o.h));
+  }
+
+  function loop(){
+    frame++;
+
+    // physics
+    dino.vy += GRAVITY;
+    dino.y += dino.vy;
+    if (dino.y >= GROUND_Y - dino.h) {
+      dino.y = GROUND_Y - dino.h;
+      dino.vy = 0;
+      dino.jumping = false;
+    }
+
+    // obstacles
+    if (frame % Math.max(40, 70 - Math.floor(speed * 4)) === 0) spawnObstacle();
+    obstacles.forEach(o => o.x -= speed);
+    obstacles = obstacles.filter(o => o.x + o.w > -4);
+
+    // difficulty ramp
+    if (frame % 300 === 0) speed += 0.4;
+
+    // score
+    if (frame % 6 === 0) {
+      score++;
+      scoreEl.textContent = String(score).padStart(3, "0");
+    }
+
+    // collision
+    for (const o of obstacles) {
+      const hit = dino.x < o.x + o.w && dino.x + dino.w > o.x &&
+                  dino.y < o.y + o.h && dino.y + dino.h > o.y;
+      if (hit) { gameOver(); return; }
+    }
+
+    draw();
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function start(){
+    resetState();
+    running = true;
+    overlay.classList.add("is-hidden");
+    draw();
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function gameOver(){
+    running = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    overlay.querySelector("span").textContent = tr("dinoGameOver");
+    overlay.classList.remove("is-hidden");
+  }
+
+  overlay.addEventListener("click", () => { if (!running) start(); });
+  canvas.addEventListener("click", jump);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code !== "Space") return;
+    // avoid hijacking space when typing in an input/textarea
+    const tag = (document.activeElement && document.activeElement.tagName) || "";
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
+    e.preventDefault();
+    jump();
+  });
+
+  draw();
 })();

@@ -46,6 +46,30 @@
 
 <main>
 
+  <!-- ================= LOADING / MINI GAME SECTION ================= -->
+  <section id="loading" class="loading-section">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-amber" data-i18n="loadingEyebrow">00 — ЗАГРУЗКА</span>
+    </div>
+
+    <div class="loading-bar-wrap">
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill" id="loadingBarFill"></div>
+      </div>
+      <span class="loading-bar-percent mono" id="loadingBarPercent">0%</span>
+    </div>
+
+    <p class="loading-hint" data-i18n="loadingHint">Можно поиграть, пока грузится страница</p>
+
+    <div class="dino-wrap">
+      <canvas id="dinoCanvas" width="300" height="80"></canvas>
+      <div class="dino-score mono" id="dinoScore">000</div>
+      <button type="button" class="dino-overlay" id="dinoOverlay">
+        <span data-i18n="dinoStart">SPACE / TAP — ПРЫЖОК</span>
+      </button>
+    </div>
+  </section>
+
   <!-- ================= PORTABLE / PHONE SECTION ================= -->
   <section id="portable" class="portable-section">
     <div class="section-head">
