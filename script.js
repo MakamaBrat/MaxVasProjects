@@ -1268,6 +1268,7 @@ function buildTagsMarkup(tags){
   function start(){
     resetState();
     running = true;
+    bird.vy = FLAP_V; // первый тап и запускает, и сразу поднимает птицу
     overlay.classList.add("is-hidden");
     draw();
     rafId = requestAnimationFrame(loop);

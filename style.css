@@ -307,19 +307,17 @@ main{ position: relative; z-index: 1; }
 .game-switch-btn{
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
   border: none;
   background: transparent;
   color: var(--text-muted);
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  padding: 5px 12px;
+  width: 28px;
+  height: 28px;
   border-radius: 999px;
   cursor: pointer;
   transition: background .2s var(--ease), color .2s var(--ease);
 }
-.game-switch-icon{ font-size: 12px; line-height: 1; }
+.game-switch-icon{ font-size: 14px; line-height: 1; }
 .game-switch-btn:hover{ color: var(--text-primary); }
 .game-switch-btn.is-active{
   background: var(--amber);
