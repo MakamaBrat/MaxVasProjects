@@ -62,11 +62,28 @@
 
     <p class="loading-hint" data-i18n="loadingHint">Можно поиграть, пока грузится страница</p>
 
-    <div class="dino-wrap">
-      <canvas id="dinoCanvas" width="375" height="100"></canvas>
+    <div class="game-switch" id="gameSwitch">
+      <button type="button" class="game-switch-btn is-active" id="gameSwitchDino" data-game="dino">
+        <span class="game-switch-icon">🦖</span><span data-i18n="gameSwitchDino">Дино</span>
+      </button>
+      <button type="button" class="game-switch-btn" id="gameSwitchFlappy" data-game="flappy">
+        <span class="game-switch-icon">🐦</span><span data-i18n="gameSwitchFlappy">Флэппи</span>
+      </button>
+    </div>
+
+    <div class="dino-wrap" id="dinoWrap">
+      <canvas id="dinoCanvas" class="mini-game-canvas" width="375" height="100"></canvas>
       <div class="dino-score mono" id="dinoScore">000</div>
       <button type="button" class="dino-overlay" id="dinoOverlay">
         <span data-i18n="dinoStart">SPACE / TAP — ПРЫЖОК</span>
+      </button>
+    </div>
+
+    <div class="dino-wrap" id="flappyWrap" hidden>
+      <canvas id="flappyCanvas" class="mini-game-canvas" width="375" height="100"></canvas>
+      <div class="dino-score mono" id="flappyScore">000</div>
+      <button type="button" class="dino-overlay" id="flappyOverlay">
+        <span data-i18n="flappyStart">SPACE / TAP — ЛЕТЕТЬ</span>
       </button>
     </div>
   </section>

@@ -182,6 +182,10 @@ const UI = {
     loadingHint: "Можно поиграть, пока грузится страница",
     dinoStart: "SPACE / ТАП — ПРЫЖОК",
     dinoGameOver: "ИГРА ОКОНЧЕНА — ЕЩЁ РАЗ?",
+    gameSwitchDino: "Дино",
+    gameSwitchFlappy: "Флэппи",
+    flappyStart: "SPACE / ТАП — ЛЕТЕТЬ",
+    flappyGameOver: "ИГРА ОКОНЧЕНА — ЕЩЁ РАЗ?",
     portableEyebrow: "01 — ПОРТАТИВНЫЕ",
     portableTitle: "Игры в кармане",
     portableSub: "Выбери игру — она откроется на экране телефона со стрелками и описанием.",
@@ -225,6 +229,10 @@ const UI = {
     loadingHint: "Можна погратись, поки завантажується сторінка",
     dinoStart: "SPACE / ТАП — СТРИБОК",
     dinoGameOver: "ГРУ ЗАВЕРШЕНО — ЩЕ РАЗ?",
+    gameSwitchDino: "Дино",
+    gameSwitchFlappy: "Флеппі",
+    flappyStart: "SPACE / ТАП — ЛЕТІТИ",
+    flappyGameOver: "ГРУ ЗАВЕРШЕНО — ЩЕ РАЗ?",
     portableEyebrow: "01 — ПОРТАТИВНІ",
     portableTitle: "Ігри в кишені",
     portableSub: "Обери гру — вона відкриється на екрані телефону зі стрілками та описом.",
@@ -268,6 +276,10 @@ const UI = {
     loadingHint: "You can play while the page loads",
     dinoStart: "SPACE / TAP — JUMP",
     dinoGameOver: "GAME OVER — AGAIN?",
+    gameSwitchDino: "Dino",
+    gameSwitchFlappy: "Flappy",
+    flappyStart: "SPACE / TAP — FLY",
+    flappyGameOver: "GAME OVER — AGAIN?",
     portableEyebrow: "01 — PORTABLE",
     portableTitle: "Games in your pocket",
     portableSub: "Pick a game — it opens on the phone screen with arrows and a description.",
@@ -1006,6 +1018,7 @@ function buildTagsMarkup(tags){
   const canvas = document.getElementById("dinoCanvas");
   const overlay = document.getElementById("dinoOverlay");
   const scoreEl = document.getElementById("dinoScore");
+  const wrap = document.getElementById("dinoWrap");
   if (!canvas || !overlay || !scoreEl) return;
 
   const ctx = canvas.getContext("2d");
@@ -1123,6 +1136,7 @@ function buildTagsMarkup(tags){
 
   document.addEventListener("keydown", (e) => {
     if (e.code !== "Space") return;
+    if (wrap && wrap.hidden) return; // не перехватывать пробел, если вкладка скрыта
     // avoid hijacking space when typing in an input/textarea
     const tag = (document.activeElement && document.activeElement.tagName) || "";
     if (tag === "INPUT" || tag === "TEXTAREA") return;
@@ -1131,6 +1145,195 @@ function buildTagsMarkup(tags){
   });
 
   draw();
+
+  // управление для переключателя вкладок мини-игр
+  window.__dinoGame = {
+    pause(){
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      resetState();
+      draw();
+      overlay.querySelector("span").textContent = tr("dinoStart");
+      overlay.classList.remove("is-hidden");
+    }
+  };
+})();
+
+/* ===================================================================
+   MINI FLAPPY BIRD (small, low-footprint canvas game)
+=================================================================== */
+(function initFlappyGame(){
+  const canvas = document.getElementById("flappyCanvas");
+  const overlay = document.getElementById("flappyOverlay");
+  const scoreEl = document.getElementById("flappyScore");
+  const wrap = document.getElementById("flappyWrap");
+  if (!canvas || !overlay || !scoreEl) return;
+
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+
+  const bird = { x: 46, y: H / 2, r: 7, vy: 0 };
+  const GRAVITY = 0.42;
+  const FLAP_V = -5.6;
+
+  const PIPE_W = 15;
+  const GAP_H = 40;
+  const PIPE_GAP_FRAMES = 90;
+
+  let pipes = [];
+  let speed = 2.1;
+  let frame = 0;
+  let score = 0;
+  let running = false;
+  let rafId = null;
+
+  function resetState(){
+    bird.y = H / 2;
+    bird.vy = 0;
+    pipes = [];
+    speed = 2.1;
+    frame = 0;
+    score = 0;
+    scoreEl.textContent = "000";
+  }
+
+  function spawnPipe(){
+    const margin = 12;
+    const gapY = margin + Math.random() * (H - margin * 2 - GAP_H);
+    pipes.push({ x: W + PIPE_W, gapY, w: PIPE_W, passed: false });
+  }
+
+  function flap(){
+    if (!running) { start(); return; }
+    bird.vy = FLAP_V;
+  }
+
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+
+    // pipes
+    ctx.fillStyle = "#57d9c8";
+    pipes.forEach(p => {
+      ctx.fillRect(p.x, 0, p.w, p.gapY);
+      ctx.fillRect(p.x, p.gapY + GAP_H, p.w, H - (p.gapY + GAP_H));
+    });
+
+    // bird
+    ctx.fillStyle = "#f6b94d";
+    ctx.beginPath();
+    ctx.arc(bird.x, bird.y, bird.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function loop(){
+    frame++;
+
+    // physics
+    bird.vy += GRAVITY;
+    bird.y += bird.vy;
+
+    // pipes
+    if (frame % PIPE_GAP_FRAMES === 0) spawnPipe();
+    pipes.forEach(p => { p.x -= speed; });
+    pipes = pipes.filter(p => p.x + p.w > -4);
+
+    // difficulty ramp
+    if (frame % 400 === 0) speed += 0.35;
+
+    // score — прошли трубу
+    pipes.forEach(p => {
+      if (!p.passed && p.x + p.w < bird.x) {
+        p.passed = true;
+        score++;
+        scoreEl.textContent = String(score).padStart(3, "0");
+      }
+    });
+
+    // collision: пол / потолок
+    if (bird.y - bird.r <= 0 || bird.y + bird.r >= H) { gameOver(); return; }
+
+    // collision: трубы
+    for (const p of pipes) {
+      const inX = bird.x + bird.r > p.x && bird.x - bird.r < p.x + p.w;
+      if (!inX) continue;
+      const hitTop = bird.y - bird.r < p.gapY;
+      const hitBottom = bird.y + bird.r > p.gapY + GAP_H;
+      if (hitTop || hitBottom) { gameOver(); return; }
+    }
+
+    draw();
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function start(){
+    resetState();
+    running = true;
+    overlay.classList.add("is-hidden");
+    draw();
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function gameOver(){
+    running = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    overlay.querySelector("span").textContent = tr("flappyGameOver");
+    overlay.classList.remove("is-hidden");
+  }
+
+  overlay.addEventListener("click", () => { if (!running) start(); });
+  canvas.addEventListener("click", flap);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code !== "Space") return;
+    if (wrap && wrap.hidden) return; // не перехватывать пробел, если вкладка скрыта
+    const tag = (document.activeElement && document.activeElement.tagName) || "";
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
+    e.preventDefault();
+    flap();
+  });
+
+  draw();
+
+  window.__flappyGame = {
+    pause(){
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      resetState();
+      draw();
+      overlay.querySelector("span").textContent = tr("flappyStart");
+      overlay.classList.remove("is-hidden");
+    }
+  };
+})();
+
+/* ===================================================================
+   ПЕРЕКЛЮЧАТЕЛЬ МИНИ-ИГР (Дино / Флэппи) в блоке загрузки
+=================================================================== */
+(function initGameSwitch(){
+  const btnDino = document.getElementById("gameSwitchDino");
+  const btnFlappy = document.getElementById("gameSwitchFlappy");
+  const dinoWrap = document.getElementById("dinoWrap");
+  const flappyWrap = document.getElementById("flappyWrap");
+  if (!btnDino || !btnFlappy || !dinoWrap || !flappyWrap) return;
+
+  function activate(which){
+    if (which === "flappy") {
+      if (window.__dinoGame) window.__dinoGame.pause();
+      dinoWrap.hidden = true;
+      flappyWrap.hidden = false;
+      btnFlappy.classList.add("is-active");
+      btnDino.classList.remove("is-active");
+    } else {
+      if (window.__flappyGame) window.__flappyGame.pause();
+      flappyWrap.hidden = true;
+      dinoWrap.hidden = false;
+      btnDino.classList.add("is-active");
+      btnFlappy.classList.remove("is-active");
+    }
+  }
+
+  btnDino.addEventListener("click", () => activate("dino"));
+  btnFlappy.addEventListener("click", () => activate("flappy"));
 })();
 
 /* ===================================================================
