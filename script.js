@@ -1173,8 +1173,8 @@ function buildTagsMarkup(tags){
   const W = canvas.width, H = canvas.height;
 
   const bird = { x: 46, y: H / 2, r: 4.5, vy: 0 };
-  const GRAVITY = 0.42;
-  const FLAP_V = -5.6;
+  const GRAVITY = 0.28;
+  const FLAP_V = -4.4;
 
   const PIPE_W = 15;
   const GAP_H = 40;
