@@ -1172,7 +1172,7 @@ function buildTagsMarkup(tags){
   const ctx = canvas.getContext("2d");
   const W = canvas.width, H = canvas.height;
 
-  const bird = { x: 46, y: H / 2, r: 7, vy: 0 };
+  const bird = { x: 46, y: H / 2, r: 4.5, vy: 0 };
   const GRAVITY = 0.42;
   const FLAP_V = -5.6;
 
