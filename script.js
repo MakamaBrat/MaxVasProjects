@@ -1184,8 +1184,8 @@ function buildTagsMarkup(tags){
   const W = canvas.width, H = canvas.height;
 
   const bird = { x: 46, y: H / 2, r: 4.5, vy: 0 };
-  const GRAVITY = 0.2;
-  const FLAP_V = -3.8;
+  const GRAVITY = 0.28;
+  const FLAP_V = -4.4;
 
   const PIPE_W = 15;
   const GAP_H = 40;
@@ -1197,7 +1197,6 @@ function buildTagsMarkup(tags){
   let score = 0;
   let running = false;
   let rafId = null;
-  let nextSpawnFrame = 0;
 
   function resetState(){
     bird.y = H / 2;
@@ -1207,7 +1206,6 @@ function buildTagsMarkup(tags){
     frame = 0;
     score = 0;
     scoreEl.textContent = "000";
-    nextSpawnFrame = 40; // первая труба появляется быстрее, чем последующие
   }
 
   function spawnPipe(){
@@ -1246,10 +1244,7 @@ function buildTagsMarkup(tags){
     bird.y += bird.vy;
 
     // pipes
-    if (frame >= nextSpawnFrame) {
-      spawnPipe();
-      nextSpawnFrame += PIPE_GAP_FRAMES;
-    }
+    if (frame % PIPE_GAP_FRAMES === 0) spawnPipe();
     pipes.forEach(p => { p.x -= speed; });
     pipes = pipes.filter(p => p.x + p.w > -4);
 
