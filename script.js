@@ -10,17 +10,6 @@
 
 const MOBILE_GAMES = [
   {
-    title: "Ocean Match",
-    gif: "assets/mobile/OceanMatch.gif",
-    icon: "assets/mobile/OceanMatch.png",
-    tags: ["Пазл", "Unity", "Firebase SDK Analytics", "Android"],
-    description: {
-      ru: "Морская три-в-ряд головоломка — собирай подводных обитателей в яркие комбинации.",
-      uk: "Морська три-в-ряд головоломка — збирай підводних мешканців у яскраві комбінації.",
-      en: "An underwater match-3 puzzle — line up sea creatures into colorful combos."
-    }
-  },
-  {
     title: "Chicken Spin",
     gif: "assets/mobile/Chicken Spin.mp4",
     icon: "assets/mobile/ChickenSpin Icon.png",
